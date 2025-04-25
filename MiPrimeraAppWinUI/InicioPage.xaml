@@ -125,7 +125,7 @@
                 Margin="10"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Salmon"/>
+                Background="SaddleBrown"/>
 
             <Button Content="Botón 3"
                 Grid.Column="2"
