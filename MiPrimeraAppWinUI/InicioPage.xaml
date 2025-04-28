@@ -9,7 +9,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
+            <RowDefinition Height="350"/>
             <!-- Imagen y texto -->
             <RowDefinition Height="*"/>
             <!-- Botones -->
@@ -20,9 +20,27 @@
         <!-- Imagen -->
         <Image Source="ms-appx:///Assets/portada.png"
                Stretch="Fill"
+               Height="315"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"
+               VerticalAlignment="Top"
                Grid.Row="0"/>
+
+
+        <Border Width="76"
+            Height="76"
+            CornerRadius="38"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="20,20,0,0"
+            Background="White"
+            PointerEntered="ButtonClosed_PointerEntered"
+            PointerExited="ButtonClosed_PointerExited"
+            Tapped="Cerrar_App"
+                >
+            <Image Source="ms-appx:///Assets/cerrado.png"
+                Stretch="UniformToFill"/>
+            
+        </Border>
 
         <!-- Texto sobre la imagen -->
         <TextBlock Text="¡Bienvenido!"
@@ -34,6 +52,17 @@
                    Foreground="White"
                    Margin="0"/>
 
+        <Border Width="250"
+            Height="250"
+            CornerRadius="125"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="0,20,50,0"
+            Background="White">
+            <Image Source="ms-appx:///Assets/Logo Paleteria Real Rojas.png"
+               Stretch="UniformToFill"/>
+        </Border>
+
         <!-- Contenedor de botones en fila -->
         <Grid Grid.Row="1" Margin="20,20,20,0">
             <Grid.ColumnDefinitions>
@@ -42,67 +71,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0"
-        Margin="10"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        BorderThickness="0"
-        Background="Transparent"
-        PointerEntered="Button_PointerEntered"
-        PointerExited="Button_PointerExited">
-                <Grid>
-                    <!-- Imagen que se escalará (fondo) -->
-                    <Image x:Name="BackgroundImage"
-               Source="/Assets/venta.jpg"
-               Stretch="Fill"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               RenderTransformOrigin="0.5,0.5"
-               Opacity="0.5">
-                        <Image.RenderTransform>
-                            <ScaleTransform x:Name="ImageScale" ScaleX="1.2" ScaleY="1.2"/>
-                        </Image.RenderTransform>
-                    </Image>
+            <!-- FancyButton para VENTA -->
+            <local:FancyButton Grid.Column="0" Margin="10" BackgroundImage="/Assets/venta.jpg" IconImage="/Assets/helado.png" Text="VENTA" />
+            <local:FancyButton Grid.Column="1" Margin="10" BackgroundImage="/Assets/inventario.jpg" IconImage="/Assets/inventario.png" Text="INVENTARIO" />
+            <local:FancyButton Grid.Column="2" Margin="10" BackgroundImage="/Assets/gastos.png" IconImage="/Assets/las-compras-en-linea.png" Text="GASTOS" />
 
-                    <!-- Imagen para el ícono (arriba, encima de la imagen de fondo) -->
-                    <Image x:Name="IconImage"
-               Source="/Assets/helado.png"
-               Width="120"
-               Height="120"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Margin="0,0,0,40"/>
-                    <!-- Ajusta el margen para colocarlo arriba -->
-
-                    <!-- Contenido debajo del ícono (texto), sobre la imagen de fondo -->
-                    <TextBlock Text="VENTA"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Foreground="Black"
-                  FontFamily="Impact"
-                  FontSize="35"
-                  FontWeight="Medium"
-                  Margin="0,120,0,0"/>
-                    <!-- Ajusta el margen para colocarlo debajo del ícono -->
-                </Grid>
-            </Button>
-
-
-            <Button Content="Botón 2"
-                Grid.Column="1"
-                Margin="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="Salmon"/>
-
-            <Button Content="Botón 3"
-                Grid.Column="2"
-                Margin="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="LightGreen"/>
-            
         </Grid>
+
 
         <Grid Grid.Row="2" Margin="20,20,20,0">
             <Grid.ColumnDefinitions>
@@ -112,27 +87,10 @@
             </Grid.ColumnDefinitions>
 
 
-            <Button Content="Botón 1"
-                Grid.Column="0"
-                Margin="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="Aqua"/>
-
-
-            <Button Content="Botón 2"
-                Grid.Column="1"
-                Margin="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="SaddleBrown"/>
-
-            <Button Content="Botón 3"
-                Grid.Column="2"
-                Margin="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                 Background="LightGreen"/>
+            <local:FancyButton Grid.Column="0" Margin="10" BackgroundImage="/Assets/registroventa.jpg" IconImage="/Assets/caja-registradora.png" Text="REGISTRO VENTAS" />
+            <local:FancyButton Grid.Column="1" Margin="10" BackgroundImage="/Assets/productos.jpg" IconImage="/Assets/helado-menu.png" Text="PRODUCTOS" />
+            <local:FancyButton Grid.Column="2" Margin="10" BackgroundImage="/Assets/recordatorios.jpg" IconImage="/Assets/recordatorio.png" Text="RECORDATORIOS" />
+            
         </Grid>
 
 
