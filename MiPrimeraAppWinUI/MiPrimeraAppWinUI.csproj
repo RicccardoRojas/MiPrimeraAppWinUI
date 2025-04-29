@@ -19,6 +19,8 @@
     <None Remove="Assets\caja-registradora.png" />
     <None Remove="Assets\caja-registradora.svg" />
     <None Remove="Assets\cerrado.png" />
+    <None Remove="Assets\flecha-izquierda.png" />
+    <None Remove="Assets\FondoSuperior.png" />
     <None Remove="Assets\gastos.png" />
     <None Remove="Assets\helado-menu.png" />
     <None Remove="Assets\helado-menu.svg" />
@@ -37,6 +39,7 @@
     <None Remove="Assets\recordatorios.jpg" />
     <None Remove="Assets\registroventa.jpg" />
     <None Remove="Assets\venta.jpg" />
+    <None Remove="BotonProductos.xaml" />
     <None Remove="FancyButton.xaml" />
   </ItemGroup>
 
@@ -74,6 +77,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\cerrado.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\flecha-izquierda.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\FondoSuperior.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\gastos.png">
@@ -130,6 +139,11 @@
     <Content Update="Assets\venta.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="BotonProductos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="FancyButton.xaml">

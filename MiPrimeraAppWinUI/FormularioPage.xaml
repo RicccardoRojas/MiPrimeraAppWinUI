@@ -4,19 +4,235 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MiPrimeraAppWinUI">
 
-    <ScrollViewer>
-        <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="20">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
-                <TextBlock Text="Formulario" FontSize="24" FontWeight="Bold" />
-                <TextBox PlaceholderText="Tu nombre..." Width="250" />
-                <ComboBox Width="250">
-                    <ComboBoxItem Content="Opción 1" />
-                    <ComboBoxItem Content="Opción 2" />
-                </ComboBox>
-                <CheckBox Content="¿Aceptar condiciones?" />
-                <Slider Minimum="0" Maximum="100" Width="250" />
-                <Button Content="Enviar" Width="120"/>
-            </StackPanel>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="125"/>
+            <!-- Contenedor Contenido -->
+            <RowDefinition Height="40"/>
+
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="/Assets/FondoSuperior.png"
+                Stretch="Fill"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Grid.Row="0"/>
+
+        <TextBlock Text="VENTA"
+                FontFamily="Cooper Black"
+                FontSize="40"
+                FontWeight="Bold"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Grid.Row="0"
+                Foreground="Black"
+                Margin="0,0,60,0"/>
+
+        <Image Source="/Assets/flecha-izquierda.png"
+                Stretch="Fill"
+                Height="50"
+                Width="50"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Grid.Row="0"
+                Margin="20,0,0,0"/>
+
+        <!-- Titulos -->
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- COLUMNA 1 -->
+
+
+            <TextBlock Text="PRODUCTOS"
+                    FontFamily="Ebrima"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="1"
+                    Foreground="Black"
+                    Margin="0,20,0,0"
+                    Grid.Column="0"
+                           />
+
+            <TextBlock Text="DESCRIPCION"
+                    FontFamily="Ebrima"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="1"
+                    Foreground="Black"
+                    Margin="0,20,0,0"
+                    Grid.Column="1"
+                    />
+
         </Grid>
-    </ScrollViewer>
+
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45"/>
+                    <!-- TextBox -->
+                    <RowDefinition Height="*"/>
+                    <!-- ScrollViewer -->
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- TextBox fijo arriba -->
+                <TextBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="30,10,30,0"
+                    Height="20"
+                    PlaceholderText="Nombre del producto"/>
+
+                <!-- Scroll de los botones -->
+                <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Primera Columna -->
+                        <local:BotonProductos Grid.Row="0" Grid.Column="0" />
+                        <local:BotonProductos Grid.Row="1" Grid.Column="0" />
+                        <local:BotonProductos Grid.Row="2" Grid.Column="0" />
+                        <local:BotonProductos Grid.Row="3" Grid.Column="0" />
+                        <local:BotonProductos Grid.Row="4" Grid.Column="0" />
+
+                        <!-- Segunda Columna -->
+                        <local:BotonProductos Grid.Row="0" Grid.Column="1" />
+                        <local:BotonProductos Grid.Row="1" Grid.Column="1" />
+                        <local:BotonProductos Grid.Row="2" Grid.Column="1" />
+                        <local:BotonProductos Grid.Row="3" Grid.Column="1" />
+                        <local:BotonProductos Grid.Row="4" Grid.Column="1" />
+
+                        <!-- Tercera Columna -->
+                        <local:BotonProductos Grid.Row="0" Grid.Column="2" />
+                        <local:BotonProductos Grid.Row="1" Grid.Column="2" />
+                        <local:BotonProductos Grid.Row="2" Grid.Column="2" />
+                        <local:BotonProductos Grid.Row="3" Grid.Column="2" />
+                        <local:BotonProductos Grid.Row="4" Grid.Column="2" />
+                    </Grid>
+                </ScrollViewer>
+
+            </Grid>
+
+
+
+            <!-- COLUMNA DESCRIPCION -->
+
+            <Grid Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" 
+                        Text="PRODUCTO:"
+                        FontFamily="Ebrima"
+                        FontSize="25"
+                        FontWeight="Normal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+
+
+                    <TextBlock Grid.Row="1" Grid.Column="1" 
+                        Text="HELADO DOBLE"
+                        FontFamily="Ebrima"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" 
+                        Text="SABOR:"
+                        FontFamily="Ebrima"
+                        FontSize="25"
+                        FontWeight="Normal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+
+
+                    <ComboBox Grid.Row="2" Grid.Column="1" PlaceholderText="Escoge el Sabor" 
+                        FontFamily="Ebrima"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+
+                        <ComboBoxItem Content="Gansito"/>
+                        <ComboBoxItem Content="Chocolate"/>
+                        <ComboBoxItem Content="Vainilla"/>
+                        <ComboBoxItem Content="Queso"/>
+                        <ComboBoxItem Content="Oreo"/>
+                        <ComboBoxItem Content="Cafe"/>
+                        <ComboBoxItem Content="Fresas con Crema"/>
+                        <ComboBoxItem Content="Limon"/>
+                        <ComboBoxItem Content="Frutos Secos"/>
+                        <ComboBoxItem Content="Fresa"/>
+                        <ComboBoxItem Content="Fresa de Agua"/>
+                        
+                    </ComboBox>
+                </Grid>
+
+            </Grid>
+
+
+        </Grid>
+
+    </Grid>
 </Page>
