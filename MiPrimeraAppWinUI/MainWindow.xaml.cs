@@ -1,17 +1,25 @@
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.UI.ViewManagement;
 
 namespace MiPrimeraAppWinUI
 {
     public sealed partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             this.InitializeComponent();
             ContentFrame.Navigate(typeof(InicioPage)); // Página inicial
+
+            var appWindow = this.AppWindow;
+            var overlapped = (OverlappedPresenter)appWindow.Presenter;
+            overlapped.Maximize();
         }
+
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
