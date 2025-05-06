@@ -188,7 +188,7 @@
                         VerticalAlignment="Center"/>
 
 
-                    <TextBlock Grid.Row="1" Grid.Column="1" 
+                    <TextBlock Name="txtTipoHelado" Grid.Row="1" Grid.Column="1" 
                         Text="HELADO DOBLE"
                         FontFamily="Ebrima"
                         FontSize="25"
@@ -206,7 +206,7 @@
                         VerticalAlignment="Center"/>
 
 
-                    <ComboBox Grid.Row="2" Grid.Column="1" PlaceholderText="Escoge el Sabor" 
+                    <ComboBox Name="cmbSabores" Grid.Row="2" Grid.Column="1" PlaceholderText="Escoge el Sabor" 
                         FontFamily="Ebrima"
                         FontSize="25"
                         FontWeight="Bold"
@@ -220,7 +220,7 @@
                         <ComboBoxItem Content="Queso"/>
                         <ComboBoxItem Content="Oreo"/>
                         <ComboBoxItem Content="Cafe"/>
-                        <ComboBoxItem Content="Fresas con Crema"/>
+                        <ComboBoxItem Content="Fresas C/Crema"/>
                         <ComboBoxItem Content="Limon"/>
                         <ComboBoxItem Content="Frutos Secos"/>
                         <ComboBoxItem Content="Fresa"/>
@@ -237,7 +237,7 @@
                         VerticalAlignment="Center"/>
 
 
-                    <TextBlock Grid.Row="3" Grid.Column="1" 
+                    <TextBlock Name="txtPrecioUnitario" Grid.Row="3" Grid.Column="1" 
                         Text="$20.00"
                         FontFamily="Ebrima"
                         FontSize="25"
@@ -328,7 +328,7 @@
                         <Border Name="btnVerificar"
                             PointerEntered="btnCantidad_PointerEntered"
                             PointerExited="btnCantidad_PointerExited"
-                            Tapped="btnMas_Tapped"
+                            Tapped="btnVerificar_Tapped"
                             Grid.Row="0"  Grid.Column="3"
                             Width="46"
                             Height="46"
@@ -353,7 +353,7 @@
 
                 </Grid>
 
-                <Grid Grid.Row="1" Margin="0,30,0,0">
+                <Grid Grid.Row="1" Margin="0,30,0,10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -375,9 +375,10 @@
                         Text="CARRITO"
                         FontFamily="Ebrima"
                         FontSize="25"
-                        FontWeight="Normal"
+                        FontWeight="Bold"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center"
+                               />
 
                     <TextBlock Grid.Row="1"
                         Grid.Column="1"
@@ -426,130 +427,54 @@
 
                 </Grid>
 
-                <ScrollViewer Grid.Row="2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="90"/>
-                        <RowDefinition Height="90"/>
-                    </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="2" >
+                    <StackPanel x:Name="PanelCarrito"/>
+                </ScrollViewer>
 
+                <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <TextBlock Name="txtTotal" Grid.Column="0" 
+                        FontFamily="Ebrima"
+                        FontSize="27"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        />
 
-                    <Border Grid.Row="0" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,10,10,1"/>
+                    <Button Name="btnPagoEfectivo" Grid.Column="1" Background="LightGreen" Margin="20,10,20,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" PointerEntered="Botones_PointerEntered" 
+                            PointerExited="Botones_PointerExited"
+                            Click="btnPagoEfectivo_Click"
+                            >
+                        <Image Source="/Assets/pago-en-efectivo.png"></Image>
+                    </Button>
 
-                        <Border Grid.Row="0" Grid.Column="0" Background="LightSkyBlue" CornerRadius="5" Margin="10,10,10,1" >
-                            <Image
-                                Source="/Assets/helado.png"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                >
-                            </Image>
-                        </Border>
+                    <Button Name="btnPagoTarjeta" Grid.Column="2" Background="LightGreen" Margin="20,10,20,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited" 
+                            Click="btnPagoTarjeta_Click">
+                        <Image Source="/Assets/tarjeta-de-dinero.png"></Image>
+                    </Button>
 
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="HELADO DOBLE" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="GANSITO" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="0" Grid.Column="3" Text="$40.00" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="0" Grid.Column="4" Text="2" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="0" Grid.Column="5" Text="$80.00" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Name="txtPagar" Grid.Column="3" Background="SkyBlue" Margin="10"
+                            Content="PAGAR"
+                            FontFamily="Ebrima"
+                            FontSize="27"
+                            FontWeight="Bold"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited"
+                            />
 
-                        <Grid Grid.Row="0" Grid.Column="6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Margin="0,0,10,0">
-                                <Image
-                                    Source="/Assets/editar.png"
-                                    Stretch="Uniform"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                </Image>
-                            </Border>
-
-
-                            <Border Grid.Column="1" Width="50" Height="50" CornerRadius="25" Margin="0,0,10,0">
-                                <Image
-                                    Source="/Assets/eliminar.png"
-                                    Stretch="Uniform"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    >
-                                </Image>
-                            </Border>
-                        </Grid>
-
-
-
-
-                    <Border Grid.Row="1" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,10,10,1"/>
-
-                        <Border Grid.Row="1" Grid.Column="0" Background="LightSkyBlue" CornerRadius="5" Margin="10,10,10,1" >
-                            <Image
-                                Source="/Assets/helado-menu.png"
-                                Stretch="Uniform"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                >
-                            </Image>
-                        </Border>
-
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="HELADO DOBLE" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Text="GANSITO" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Grid.Column="3" Text="$40.00" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Grid.Column="4" Text="2" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Grid.Column="5" Text="$80.00" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                        <Grid Grid.Row="1" Grid.Column="6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Margin="0,0,10,0">
-                                <Image
-                                    Source="/Assets/editar.png"
-                                    Stretch="Uniform"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                </Image>
-                            </Border>
-
-
-                            <Border Grid.Column="1" Width="50" Height="50" CornerRadius="25" Margin="0,0,10,0">
-                                <Image
-                                    Source="/Assets/eliminar.png"
-                                    Stretch="Uniform"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    >
-                                </Image>
-                            </Border>
-                        </Grid>
-
-
-
-                        <Border Grid.Row="2" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,10,10,1"/>
-                    <Border Grid.Row="3" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,10,10,1"/>
-                    <Border Grid.Row="4" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,10,10,1"/>
-                    <Border Grid.Row="5" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,10,10,1"/>
 
                 </Grid>
-                </ScrollViewer>
+
 
             </Grid>
 

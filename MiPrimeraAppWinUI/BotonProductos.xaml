@@ -8,14 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button
-        BorderThickness="0"
-        Background="LightBlue"
-        Content="Agregar"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Center"
-        Height="200"
-        Margin="10"/>
-    
-    
+    <Button BorderThickness="0"
+            Background="LightBlue"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Height="200"
+            Margin="10">
+
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <Image Source="/Assets/helado-menu.png" Height="100"/>
+            <TextBlock Text="Agregar" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+    </Button>
+
+
 </UserControl>

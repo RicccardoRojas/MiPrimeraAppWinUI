@@ -35,6 +35,7 @@
     <None Remove="Assets\las-compras-en-linea.png" />
     <None Remove="Assets\las-compras-en-linea.svg" />
     <None Remove="Assets\Logo Paleteria Real Rojas.png" />
+    <None Remove="Assets\pago-en-efectivo.png" />
     <None Remove="Assets\portada.png" />
     <None Remove="Assets\productos.jpg" />
     <None Remove="Assets\recordatorio.png" />
@@ -43,9 +44,11 @@
     <None Remove="Assets\registroventa.jpg" />
     <None Remove="Assets\signo-de-mas.png" />
     <None Remove="Assets\signo-menos.png" />
+    <None Remove="Assets\tarjeta-de-dinero.png" />
     <None Remove="Assets\venta.jpg" />
     <None Remove="BotonProductos.xaml" />
     <None Remove="FancyButton.xaml" />
+    <None Remove="ListaCarrito.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -132,6 +135,9 @@
     <Content Update="Assets\Logo Paleteria Real Rojas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\pago-en-efectivo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\portada.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -156,9 +162,17 @@
     <Content Update="Assets\signo-menos.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\tarjeta-de-dinero.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\venta.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ListaCarrito.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="BotonProductos.xaml">
