@@ -33,6 +33,9 @@ namespace MiPrimeraAppWinUI
                     case "formulario":
                         ContentFrame.Navigate(typeof(FormularioPage));
                         break;
+                    case "registroventa":
+                        ContentFrame.Navigate(typeof(RegistroVenta));
+                        break;
                 }
             }
         }

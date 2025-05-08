@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MiPrimeraAppWinUI.RegistroVenta"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MiPrimeraAppWinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="125"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="/Assets/FondoSuperior.png"
+        Stretch="Fill"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        Grid.Row="0"/>
+
+        <TextBlock Text="REGISTRO DE VENTA"
+        FontFamily="Cooper Black"
+        FontSize="40"
+        FontWeight="Bold"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Grid.Row="0"
+        Foreground="Black"
+        Margin="0,0,60,0"/>
+
+        <Image Source="/Assets/flecha-izquierda.png"
+        Stretch="Fill"
+        Height="50"
+        Width="50"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="0"
+        Margin="20,0,0,0"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Name="txtTituloVentSemana"
+                    FontFamily="Ebrima"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="0"
+                    Foreground="Black"
+                    Margin="0,20,0,0"
+                           />
+
+                <lvc:CartesianChart Grid.Row="1"
+                    Series="{x:Bind SerieNumVentas}"
+                    XAxes="{x:Bind XAxesNumVentas}"
+                    YAxes="{x:Bind YAxesNumVentas}" />
+
+                <TextBlock Name="txtTituloCantGanada"
+                    FontFamily="Ebrima"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="2"
+                    Foreground="Black"
+                    Margin="0,20,0,0"
+                    />
+
+                <lvc:CartesianChart Grid.Row="3"
+                    Series="{x:Bind SerieCantGanada}"
+                    XAxes="{x:Bind XAxesCantGanada}"
+                    YAxes="{x:Bind YAxesCantGanada}" />
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="REGISTRO"
+                    FontFamily="Ebrima"
+                    FontSize="25"
+                    FontWeight="Bold"
+                    TextAlignment="Center"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Grid.Row="0"
+                    Foreground="Black"
+                    Margin="0,20,0,0"
+                    />
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CalendarDatePicker
+                        x:Name="dtpFechaFiltro"
+                        PlaceholderText="SELECCIONA LA FECHA A BUSCAR"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Grid.Column="0"
+                        DateFormat="{}{dayofweek.full}, {day.integer} de {month.full} de {year.full}"
+                        Language="es-ES"
+                        Margin="0,10,0,10"/>
+
+                    <ComboBox
+                        x:Name="cmbTipoRegistro"
+                        PlaceholderText="SELECCIONA TIPO"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Grid.Column="1"
+                        Margin="0,10,0,10"
+                        >
+                        <ComboBoxItem Content="DIARIO" />
+                        <ComboBoxItem Content="SEMANAL" />
+                        <ComboBoxItem Content="MENSUAL" />
+                    </ComboBox>
+
+                    <Border
+                        Grid.Column="2"
+                        Name="btnPDF"
+                        PointerEntered="btnPDF_PointerEntered"
+                        PointerExited="btnPDF_PointerExited"
+                        Width="40"
+                        Height="40"
+                        CornerRadius="20"
+                        Margin="0,10,0,10"
+                        >
+                        <Image
+                            Source="/Assets/pdf.png"
+                            Stretch="Uniform"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+                    </Border>
+
+                </Grid>
+
+                
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</Page>

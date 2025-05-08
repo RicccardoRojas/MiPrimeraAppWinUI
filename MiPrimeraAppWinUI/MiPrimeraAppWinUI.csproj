@@ -35,7 +35,9 @@
     <None Remove="Assets\las-compras-en-linea.png" />
     <None Remove="Assets\las-compras-en-linea.svg" />
     <None Remove="Assets\Logo Paleteria Real Rojas.png" />
+    <None Remove="Assets\notificacion.gif" />
     <None Remove="Assets\pago-en-efectivo.png" />
+    <None Remove="Assets\pdf.png" />
     <None Remove="Assets\portada.png" />
     <None Remove="Assets\productos.jpg" />
     <None Remove="Assets\recordatorio.png" />
@@ -49,6 +51,7 @@
     <None Remove="BotonProductos.xaml" />
     <None Remove="FancyButton.xaml" />
     <None Remove="ListaCarrito.xaml" />
+    <None Remove="RegistroVenta.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,6 +77,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc5.3" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
   </ItemGroup>
@@ -135,7 +139,13 @@
     <Content Update="Assets\Logo Paleteria Real Rojas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\notificacion.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\pago-en-efectivo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\pdf.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\portada.png">
@@ -168,6 +178,11 @@
     <Content Update="Assets\venta.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="RegistroVenta.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ListaCarrito.xaml">

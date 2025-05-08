@@ -45,7 +45,7 @@
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
-            <NavigationViewItem Content="Registro Venta" Tag="formulario" Tapped="NavigationViewItem_Tapped">
+            <NavigationViewItem Content="Registro Venta" Tag="registroventa" Tapped="NavigationViewItem_Tapped">
                 <NavigationViewItem.Icon>
                     <ImageIcon>
                         <ImageIcon.Source>
