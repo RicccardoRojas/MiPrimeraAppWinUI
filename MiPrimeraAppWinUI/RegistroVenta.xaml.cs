@@ -7,7 +7,9 @@ using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using Microsoft.UI.Input;
+using CommunityToolkit.WinUI.UI.Controls;
 using System.Globalization;
+using System;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -20,6 +22,8 @@ namespace MiPrimeraAppWinUI
     /// </summary>
     public sealed partial class RegistroVenta : Page
     {
+        //Prueba datagrid
+        public ObservableCollection<Producto> Productos { get; set; }
         //Grafico de Numero de Ventas
         public ISeries[] SerieNumVentas { get; set; }
         public ObservableCollection<ICartesianAxis> XAxesNumVentas { get; set; }
@@ -37,6 +41,9 @@ namespace MiPrimeraAppWinUI
             txtTituloCantGanada.Text = "VENTAS SEMANALES\nCANTIDAD GANADA";
             GenerarGraficoNumVentas();
             GenerarGraficoCantGanada();
+
+            Productos = GenerarProductos(100);
+            MiDataGrid.ItemsSource = Productos;
         }
 
         public void GenerarGraficoNumVentas()
@@ -138,8 +145,34 @@ namespace MiPrimeraAppWinUI
             this.ProtectedCursor = null;
         }
 
-       
+        public class Producto
+        {
+            public int Id { get; set; }
+            public string Nombre { get; set; }
+            public double Precio { get; set; }
+        }
+
+        private ObservableCollection<Producto> GenerarProductos(int cantidad)
+        {
+            var lista = new ObservableCollection<Producto>();
+            var nombres = new[] { "Manzana", "Plátano", "Naranja", "Pera", "Sandía", "Melón", "Durazno", "Fresa", "Kiwi", "Mango" };
+            var random = new Random();
+
+            for (int i = 1; i <= cantidad; i++)
+            {
+                lista.Add(new Producto
+                {
+                    Id = i,
+                    Nombre = nombres[random.Next(nombres.Length)] + $" #{i}",
+                    Precio = Math.Round(random.NextDouble() * 50 + 5, 2) // Precio entre 5.00 y 55.00
+                });
+            }
+
+            return lista;
+        }
+
     }
+    
 
 
 }

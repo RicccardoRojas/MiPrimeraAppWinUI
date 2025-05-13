@@ -56,7 +56,7 @@
             </NavigationViewItem>
 
 
-            <NavigationViewItem Content="Productos" Tag="formulario" Tapped="NavigationViewItem_Tapped">
+            <NavigationViewItem Content="Productos" Tag="inventarioproducto" Tapped="NavigationViewItem_Tapped">
                 <NavigationViewItem.Icon>
                     <ImageIcon>
                         <ImageIcon.Source>

@@ -9,7 +9,6 @@ namespace MiPrimeraAppWinUI
 {
     public sealed partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             this.InitializeComponent();
@@ -35,6 +34,9 @@ namespace MiPrimeraAppWinUI
                         break;
                     case "registroventa":
                         ContentFrame.Navigate(typeof(RegistroVenta));
+                        break;
+                    case "inventarioproducto":
+                        ContentFrame.Navigate(typeof(InventarioProductos));
                         break;
                 }
             }
