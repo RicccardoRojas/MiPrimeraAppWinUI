@@ -25,7 +25,7 @@
             </NavigationViewItem>
 
 
-            <NavigationViewItem Content="Inventario" Tag="formulario" Tapped="NavigationViewItem_Tapped">
+            <NavigationViewItem Content="Inventario" Tag="inventario" Tapped="NavigationViewItem_Tapped">
                 <NavigationViewItem.Icon>
                     <ImageIcon>
                         <ImageIcon.Source>

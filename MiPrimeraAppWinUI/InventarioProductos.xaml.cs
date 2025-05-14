@@ -27,6 +27,7 @@ namespace MiPrimeraAppWinUI
     {
 
         public ObservableCollection<Productos> InventProductos { get; set; }
+        public ObservableCollection<TiposSabores> TipoSabores { get; set; } = new ObservableCollection<TiposSabores>();
 
         public InventarioProductos()
         {
@@ -35,6 +36,9 @@ namespace MiPrimeraAppWinUI
 
             InventProductos = GenerarProductosConIcono(100);
             DGInventProducts.ItemsSource = InventProductos;
+
+            TipoSabores = GetTiposSabores(20);
+            DGTipoSabores.ItemsSource = TipoSabores;
         }
 
         public class Productos
@@ -44,13 +48,36 @@ namespace MiPrimeraAppWinUI
             public string Producto { get; set; }
             public int Cantidad { get; set; }
             public string Caducidad { get; set; }
+            public int IDTIPSabor { get; set; }
+            public string Sabor { get; set; }
             public string Precio { get; set; }
+        }
+
+        public class TiposSabores
+        {
+            public int Id { get; set; }
+            public string Sabor { get; set; }
+        }
+
+        private ObservableCollection<TiposSabores> GetTiposSabores(int cantidad)
+        {
+            var lista = new ObservableCollection<TiposSabores>();
+            var sabores = new[] { "Chocolate", "Vainilla", "Fresa", "Menta", "Café", "Limón", "Coco", "Frutos Rojos", "Caramelo", "Pistacho" };
+            var random = new Random();
+
+            for (int i = 1; i <= cantidad; i++)
+            {
+                lista.Add(new TiposSabores { Id = i + 1, Sabor = sabores[random.Next(sabores.Length)] + $" #{i}" });
+            }
+            return lista;
         }
 
         private ObservableCollection<Productos> GenerarProductosConIcono(int cantidad)
         {
             var lista = new ObservableCollection<Productos>();
             var nombres = new[] { "Manzana", "Plátano", "Naranja", "Pera", "Sandía", "Melón", "Durazno", "Fresa", "Kiwi", "Mango" };
+            var tipos = new[] { "Paleta", "Nieve", "Helado", "Malteada", "Agua de sabor", "Raspado", "Yogurt congelado", "Cono", "Trolebús", "Barquillo" };
+
             var random = new Random();
 
             for (int i = 1; i <= cantidad; i++)
@@ -60,7 +87,7 @@ namespace MiPrimeraAppWinUI
                 var bitmap = new BitmapImage(new Uri(rutaImagen));
 
                 var Caducidad = DateTime.Now.AddDays(random.Next(30, 365));
-                string fechaFormateada = Caducidad.ToString("dddd d 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-ES"));
+                string fechaFormateada = Caducidad.ToString("d 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-ES"));
 
 
                 lista.Add(new Productos
@@ -70,6 +97,7 @@ namespace MiPrimeraAppWinUI
                     Producto = nombres[random.Next(nombres.Length)] + $" #{i}",
                     Cantidad = random.Next(1, 100),
                     Caducidad = fechaFormateada,
+                    Sabor = tipos[random.Next(tipos.Length)],
                     Precio = $"${Math.Round(random.NextDouble() * 50 + 5, 2):N2}"
                 });
             }
@@ -102,6 +130,11 @@ namespace MiPrimeraAppWinUI
             {
                 btnSeleccionarArchivo.Content = "No se seleccionó ningún archivo.";
             }
+        }
+
+        private void btnGuardar_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

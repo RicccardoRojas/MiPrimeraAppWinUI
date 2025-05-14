@@ -38,6 +38,9 @@ namespace MiPrimeraAppWinUI
                     case "inventarioproducto":
                         ContentFrame.Navigate(typeof(InventarioProductos));
                         break;
+                    case "inventario":
+                        ContentFrame.Navigate(typeof(Inventario));
+                        break;
                 }
             }
         }
