@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using System;
 using Windows.UI.ViewManagement;
 
 namespace MiPrimeraAppWinUI
@@ -41,6 +42,9 @@ namespace MiPrimeraAppWinUI
                     case "inventario":
                         ContentFrame.Navigate(typeof(Inventario));
                         break;
+                    case "gastos":
+                        ContentFrame.Navigate(typeof(Gastos));
+                        break;
                 }
             }
         }
@@ -63,5 +67,34 @@ namespace MiPrimeraAppWinUI
                 _ = dialog.ShowAsync();
             }
         }
+
+        public void NavegarAPagina(string tag)
+        {
+            Type pageType = tag switch
+            {
+                "inicio" => typeof(InicioPage),
+                "formulario" => typeof(FormularioPage),
+                "registroventa" => typeof(RegistroVenta),
+                "inventarioproducto" => typeof(InventarioProductos),
+                "inventario" => typeof(Inventario),
+                "gastos" => typeof(Gastos),
+                _ => null
+            };
+
+            if (pageType != null)
+            {
+                ContentFrame.Navigate(pageType);
+
+                foreach (var item in NavView.MenuItems)
+                {
+                    if (item is NavigationViewItem navItem && (string)navItem.Tag == tag)
+                    {
+                        NavView.SelectedItem = navItem;
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 }

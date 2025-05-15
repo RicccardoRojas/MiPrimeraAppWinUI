@@ -35,7 +35,7 @@
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
 
-            <NavigationViewItem Content="Gastos" Tag="formulario" Tapped="NavigationViewItem_Tapped">
+            <NavigationViewItem Content="Gastos" Tag="gastos" Tapped="NavigationViewItem_Tapped">
                 <NavigationViewItem.Icon>
                     <ImageIcon>
                         <ImageIcon.Source>
