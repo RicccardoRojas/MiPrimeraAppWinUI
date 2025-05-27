@@ -45,6 +45,9 @@ namespace MiPrimeraAppWinUI
                     case "gastos":
                         ContentFrame.Navigate(typeof(Gastos));
                         break;
+                    case "recordatorios":
+                        ContentFrame.Navigate(typeof(Recordatorios));
+                        break;
                 }
             }
         }
@@ -78,6 +81,7 @@ namespace MiPrimeraAppWinUI
                 "inventarioproducto" => typeof(InventarioProductos),
                 "inventario" => typeof(Inventario),
                 "gastos" => typeof(Gastos),
+                "recordatorios" => typeof(Recordatorios),
                 _ => null
             };
 

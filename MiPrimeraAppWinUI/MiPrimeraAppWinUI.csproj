@@ -54,6 +54,7 @@
     <None Remove="Inventario.xaml" />
     <None Remove="InventarioProductos.xaml" />
     <None Remove="ListaCarrito.xaml" />
+    <None Remove="Recordatorios.xaml" />
     <None Remove="RegistroVenta.xaml" />
   </ItemGroup>
 
@@ -182,6 +183,11 @@
     <Content Update="Assets\venta.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Recordatorios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Gastos.xaml">

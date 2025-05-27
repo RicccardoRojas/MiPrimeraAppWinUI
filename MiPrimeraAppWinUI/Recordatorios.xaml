@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MiPrimeraAppWinUI.Recordatorios"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MiPrimeraAppWinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:primitives="using:CommunityToolkit.WinUI.UI.Controls.Primitives"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="125"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="/Assets/FondoSuperior.png"
+        Stretch="Fill"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        Grid.Row="0"/>
+
+        <TextBlock Text="RECORDATORIOS"
+        FontFamily="Cooper Black"
+        FontSize="40"
+        FontWeight="Bold"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Grid.Row="0"
+        Foreground="Black"
+        Margin="0,0,60,0"/>
+
+
+        <Button Name="btnFlecha" Click="btnFlecha_Click"
+        Background="Transparent"
+        PointerEntered="Botones_PointerEntered"
+        PointerExited="Botones_PointerExited"
+        BorderBrush="{x:Null}"
+        Padding="0"
+        Width="50" Height="50"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Grid.Row="0"
+        Margin="20,0,0,0"
+            >
+            <Image Source="/Assets/flecha-izquierda.png" Stretch="Fill"/>
+        </Button>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <controls:DataGrid
+                    Grid.Column="0"
+                    x:Name="DGRecordatorios"
+                    AutoGenerateColumns="False"
+                    HeadersVisibility="All"
+                    GridLinesVisibility="All"
+                    Margin="0,0,20,20">
+
+                    <!-- Aquí centramos TODOS los encabezados -->
+                    <controls:DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="primitives:DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                    </controls:DataGrid.ColumnHeaderStyle>
+
+                    <controls:DataGrid.Columns>
+
+                        <controls:DataGridTemplateColumn Header="Estado" Width="*">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Estado}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Center"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <!-- Producto -->
+                        <controls:DataGridTemplateColumn Header="Descripcion" Width="*">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Descripcion}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Center"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <!-- Cantidad -->
+                        <controls:DataGridTemplateColumn Header="Observaciones" Width="*">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Observaciones}"
+                                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        TextAlignment="Center"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
+                        <!-- Eliminar -->
+                        <controls:DataGridTemplateColumn Header="Terminar" Width="95">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
+                                        <Image Source="/Assets/comprobado.png"
+                                            Width="60" Height="60"
+                                            Stretch="UniformToFill"/>
+                                    </Border>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="7*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Name="txtEncabeAddRecordatorios"
+                        FontFamily="Ebrima"
+                        FontSize="25"
+                        FontWeight="Bold"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Black"
+                        Margin="0,0,0,0"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                               />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="ESTADO:"
+                        FontFamily="Ebrima"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                    />
+
+                    <ComboBox Grid.Row="1" Grid.Column="1" 
+                        PlaceholderText="Selecciona Estado"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="10,0,30,0">
+
+                        <ComboBoxItem Content="URGENTE" />
+                        <ComboBoxItem Content="MODERADO" />
+                        <ComboBoxItem Content="NORMAL" />
+
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="DESCRIPCION:"
+                        FontFamily="Ebrima"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                    />
+
+                    <TextBox Grid.Row="2" Grid.Column="1" 
+                        PlaceholderText="Ingresa Descripcion"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="10,0,30,0"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="OBSERVACIONES:"
+                        FontFamily="Ebrima"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                    />
+
+                    <TextBox Grid.Row="3" Grid.Column="1" 
+                        PlaceholderText="Ingresa Observaciones"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="10,0,30,0"
+                    />
+
+                    <Button Grid.Row="4" Grid.Column="1" Name="btnGuardar"
+                        Content="Guardar"
+                        Click="btnGuardar_Click"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Blue"
+                        Foreground="White"
+                        Margin="0,0,30,0"
+                    />
+
+                </Grid>
+                
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Page>
