@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="MiPrimeraAppWinUI.AgregarSaborDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MiPrimeraAppWinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="80"
+    Width="500"
+    mc:Ignorable="d">
+
+    <StackPanel>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="TIPO SABOR:" FontWeight="Bold" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,10,0"/>
+
+            <ComboBox Grid.Row="0" Grid.Column="1"
+                Name="cmbTipoSabores"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                PlaceholderText="Selecciona Tipo Sabor"
+                Margin="0,0,10,0"
+            />
+
+            <TextBox Grid.Row="0" Grid.Column="1"
+                Name="txtTipoSabor"
+                Visibility="Collapsed"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                PlaceholderText="Ingresa Nuevo Tipo Sabor"
+                Margin="0,0,10,0"
+            />
+
+            <Border Name="btnMas"
+                    Tag="Ingresar"
+                    PointerEntered="Botones_PointerEntered"
+                    PointerExited="Botones_PointerExited"
+                    Tapped="btnMas_Tapped"
+                    Grid.Row="0"  Grid.Column="2"
+                    Width="46"
+                    Height="46"
+                    CornerRadius="23"
+                    Background="LightGray"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    BorderThickness="0">
+
+                <Image
+                    Name="IMGbtnMas"
+                    Source="/Assets/signo-de-mas.png"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                />
+            </Border>
+
+            <Border Name="btnVerificar"
+                    Visibility="Collapsed"
+                    PointerEntered="Botones_PointerEntered"
+                    PointerExited="Botones_PointerExited"
+                    Tapped="btnVerificar_Tapped"
+                    Grid.Row="0"  Grid.Column="3"
+                    Width="46"
+                    Height="46"
+                    CornerRadius="23"
+                    Background="LightGray"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    BorderThickness="0">
+
+                <Image
+                    Source="/Assets/comprobado.png"
+                    Stretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                />
+            </Border>
+
+            <TextBlock Name="txtSaborEncabezado" Text="SABOR:" FontWeight="Bold" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" TextAlignment="Right" Margin="0,0,10,0"/>
+
+            <TextBox Grid.Row="1" Grid.Column="1"
+                Name="txtSabor"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                PlaceholderText="Ingresa Nuevo Tipo Sabor"
+                Margin="0,0,10,0"
+            />
+            
+        </Grid>
+
+
+    </StackPanel>
+
+</UserControl>

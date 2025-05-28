@@ -18,6 +18,9 @@ using Windows.Foundation.Collections;
 using CommunityToolkit.WinUI.UI.Controls;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
+using Microsoft.UI.Input;
+using ManejadoresPaleteria;
+using EntidadPeleteria;
 
 
 namespace MiPrimeraAppWinUI
@@ -25,20 +28,22 @@ namespace MiPrimeraAppWinUI
 
     public sealed partial class InventarioProductos : Page
     {
+        ManejadorInventarioProducto MI;
 
         public ObservableCollection<Productos> InventProductos { get; set; }
-        public ObservableCollection<TiposSabores> TipoSabores { get; set; } = new ObservableCollection<TiposSabores>();
+        public ObservableCollection<Sabores> SaboresList { get; set; } = new ObservableCollection<Sabores>();
 
         public InventarioProductos()
         {
             this.InitializeComponent();
+            MI = new ManejadorInventarioProducto();
+
             txtEncabezadoAddEditProduc.Text = "AGREGAR/EDITAR\nPRODUCTO";
+            RellenarSabores();
+            
 
             InventProductos = GenerarProductosConIcono(100);
             DGInventProducts.ItemsSource = InventProductos;
-
-            TipoSabores = GetTiposSabores(20);
-            DGTipoSabores.ItemsSource = TipoSabores;
         }
 
         public class Productos
@@ -51,12 +56,6 @@ namespace MiPrimeraAppWinUI
             public int IDTIPSabor { get; set; }
             public string Sabor { get; set; }
             public string Precio { get; set; }
-        }
-
-        public class TiposSabores
-        {
-            public int Id { get; set; }
-            public string Sabor { get; set; }
         }
 
         private ObservableCollection<TiposSabores> GetTiposSabores(int cantidad)
@@ -132,9 +131,88 @@ namespace MiPrimeraAppWinUI
             }
         }
 
+        private void btnFlecha_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Current is App app && app.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.NavegarAPagina("inicio");
+            }
+        }
+
+        private void Botones_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            this.ProtectedCursor = null;
+        }
+
+        private void Botones_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            this.ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
+        }
+
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        void RellenarSabores()
+        {
+            //Consulta Sabores 
+            cmbBuscarTipo.ItemsSource = cmbSabores.ItemsSource = MI.ObtenerTipoSabores();
+
+            //Tipos de Productos Formulario (Mostrar)
+            cmbSabores.DisplayMemberPath = "Sabor";
+            cmbSabores.SelectedValuePath = "Id";
+            
+            //Tipos de Sabores Lista (Mostrar)
+            cmbBuscarTipo.DisplayMemberPath = "Sabor";
+            cmbBuscarTipo.SelectedValuePath = "Id";
+        }
+
+        private void cmbBuscarTipo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbBuscarTipo.SelectedValue != null)
+            {
+                int a = Convert.ToInt32(cmbBuscarTipo.SelectedValue);
+                DGTSabores.ItemsSource = MI.ObtenerSabores(Convert.ToInt32(cmbBuscarTipo.SelectedValue));
+            }
+            else
+            {
+                DGTSabores.ItemsSource = null;
+            }
+
+        }
+
+        private async void btnAgregar_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var contenido = new AgregarSaborDialog();
+
+            var dialog = new ContentDialog
+            {
+                Title = "Agregar nuevo sabor",
+                Content = contenido,
+                PrimaryButtonText = "Agregar",
+                CloseButtonText = "Cancelar",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot // Importante para WinUI 3
+            };
+
+            contenido.ParentDialog = dialog;
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+
+                /*if (!string.IsNullOrWhiteSpace(sabor))
+                {
+                    //MI.InsertarSabor(sabor); // Asegúrate de tener un método InsertarSabor
+                    cmbBuscarTipo.ItemsSource = MI.ObtenerTipoSabores();
+                }*/
+            }
+            if (result == ContentDialogResult.None)
+            {
+                RellenarSabores();
+            }
         }
     }
 }

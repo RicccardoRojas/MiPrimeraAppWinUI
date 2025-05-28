@@ -29,14 +29,20 @@
                 Foreground="Black"
                 Margin="0,0,60,0"/>
 
-        <Image Source="/Assets/flecha-izquierda.png"
-                Stretch="Fill"
-                Height="50"
-                Width="50"
+        <Button Name="btnFlecha" Click="btnFlecha_Click"
+                Background="Transparent"
+                PointerEntered="Botones_PointerEntered"
+                PointerExited="Botones_PointerExited"
+                BorderBrush="{x:Null}"
+                Padding="0"
+                Width="50" Height="50"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Grid.Row="0"
-                Margin="20,0,0,0"/>
+                Margin="20,0,0,0"
+                >
+            <Image Source="/Assets/flecha-izquierda.png" Stretch="Fill"/>
+        </Button>
 
         <!-- Titulos -->
 
@@ -471,7 +477,6 @@
                             VerticalAlignment="Stretch"
                             PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited"
                             />
-
 
                 </Grid>
 

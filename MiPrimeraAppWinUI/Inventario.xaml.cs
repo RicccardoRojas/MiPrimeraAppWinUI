@@ -1,3 +1,4 @@
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -82,6 +83,24 @@ namespace MiPrimeraAppWinUI
                     dtpCaducidad.IsEnabled = false;
                     txtCaducidad.Opacity = 0.5;
                 }
+            }
+        }
+
+        private void Botones_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            this.ProtectedCursor = null;
+        }
+
+        private void Botones_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            this.ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
+        }
+
+        private void btnFlecha_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Current is App app && app.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.NavegarAPagina("inicio");
             }
         }
 

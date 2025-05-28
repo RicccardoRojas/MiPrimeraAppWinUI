@@ -9,6 +9,8 @@
     <Button Margin="0"
             BorderThickness="0"
             Background="Transparent"
+            Name="{x:Bind Name}"
+            Click="Button_Click"
             PointerEntered="FancyButton_PointerEntered"
             PointerExited="FancyButton_PointerExited">
         <Grid>

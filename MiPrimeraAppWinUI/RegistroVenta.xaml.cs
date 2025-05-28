@@ -10,6 +10,8 @@ using Microsoft.UI.Input;
 using CommunityToolkit.WinUI.UI.Controls;
 using System.Globalization;
 using System;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -145,6 +147,16 @@ namespace MiPrimeraAppWinUI
             this.ProtectedCursor = null;
         }
 
+        private void Botones_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            this.ProtectedCursor = null;
+        }
+
+        private void Botones_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            this.ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
+        }
+
         public class Producto
         {
             public int Id { get; set; }
@@ -169,6 +181,14 @@ namespace MiPrimeraAppWinUI
             }
 
             return lista;
+        }
+
+        private void btnFlecha_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Current is App app && app.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.NavegarAPagina("inicio");
+            }
         }
 
     }

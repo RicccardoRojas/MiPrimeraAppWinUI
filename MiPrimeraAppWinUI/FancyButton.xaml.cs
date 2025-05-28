@@ -112,6 +112,18 @@ namespace MiPrimeraAppWinUI
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button boton)
+            {
+                string nombre = boton.Name;
 
+                // Ejemplo de uso del nombre
+                if (App.Current is App app && app.MainWindow is MainWindow mainWindow)
+                {
+                    mainWindow.NavegarAPagina(nombre); // puedes usar el nombre como parámetro si quieres
+                }
+            }
+        }
     }
 }

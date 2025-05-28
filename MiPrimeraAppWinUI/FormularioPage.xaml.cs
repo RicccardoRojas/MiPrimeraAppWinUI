@@ -138,6 +138,13 @@ namespace MiPrimeraAppWinUI
             
         }
 
+        private void btnFlecha_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Current is App app && app.MainWindow is MainWindow mainWindow)
+            {
+                mainWindow.NavegarAPagina("inicio");
+            }
+        }
 
         private void btnPagoEfectivo_Click(object sender, RoutedEventArgs e)
         {

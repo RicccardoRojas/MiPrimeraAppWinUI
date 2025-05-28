@@ -73,9 +73,9 @@
             </Grid.ColumnDefinitions>
 
             <!-- FancyButton para VENTA -->
-            <local:FancyButton Grid.Column="0" Margin="10" BackgroundImage="/Assets/venta.jpg" IconImage="/Assets/helado.png" Text="VENTA" />
-            <local:FancyButton Grid.Column="1" Margin="10" BackgroundImage="/Assets/inventario.jpg" IconImage="/Assets/inventario.png" Text="INVENTARIO" />
-            <local:FancyButton Grid.Column="2" Margin="10" BackgroundImage="/Assets/gastos.png" IconImage="/Assets/las-compras-en-linea.png" Text="GASTOS" />
+            <local:FancyButton Grid.Column="0" Margin="10" x:Name="formulario" BackgroundImage="/Assets/venta.jpg" IconImage="/Assets/helado.png" Text="VENTA" />
+            <local:FancyButton Grid.Column="1" Margin="10" x:Name="inventario" BackgroundImage="/Assets/inventario.jpg" IconImage="/Assets/inventario.png" Text="INVENTARIO" />
+            <local:FancyButton Grid.Column="2" Margin="10" x:Name="gastos" BackgroundImage="/Assets/gastos.png" IconImage="/Assets/las-compras-en-linea.png" Text="GASTOS" />
 
         </Grid>
 
@@ -88,9 +88,9 @@
             </Grid.ColumnDefinitions>
 
             <!-- FancyButton para VENTA -->
-            <local:FancyButton Grid.Column="0" Margin="10" BackgroundImage="/Assets/registroventa.jpg" IconImage="/Assets/caja-registradora.png" Text="REGISTRO VENTAS" />
-            <local:FancyButton Grid.Column="1" Margin="10" BackgroundImage="/Assets/productos.jpg" IconImage="/Assets/helado-menu.png" Text="PRODUCTOS" />
-            <local:FancyButton Grid.Column="2" Margin="10" BackgroundImage="/Assets/recordatorios.jpg" IconImage="/Assets/recordatorio.png" Text="RECORDATORIOS" />
+            <local:FancyButton Grid.Column="0" Margin="10" x:Name="registroventa" BackgroundImage="/Assets/registroventa.jpg" IconImage="/Assets/caja-registradora.png" Text="REGISTRO VENTAS" />
+            <local:FancyButton Grid.Column="1" Margin="10" x:Name="inventarioproducto" BackgroundImage="/Assets/productos.jpg" IconImage="/Assets/helado-menu.png" Text="PRODUCTOS" />
+            <local:FancyButton Grid.Column="2" Margin="10" x:Name="recordatorios" BackgroundImage="/Assets/recordatorios.jpg" IconImage="/Assets/recordatorio.png" Text="RECORDATORIOS" />
             
         </Grid>
 
