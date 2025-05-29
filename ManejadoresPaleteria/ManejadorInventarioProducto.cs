@@ -9,119 +9,212 @@ namespace ManejadoresPaleteria
     public class ManejadorInventarioProducto
     {
         #region Productos
-        public  List<Productos> ObtenerProductos()
+        public  ObservableCollection<Productos> ObtenerProductos(string filtro)
         {
-            var productos = new List<Productos>();
-
-            using var connection = new SqliteConnection(AccesoBD.ConnectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM InventarioProductos";
-
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                productos.Add(new Productos
-                {
-                    Id = reader.GetInt32(0),
-                    RutaIcono = reader.GetString(1),
-                    Producto = reader.GetString(2),
-                    Cantidad = reader.GetInt32(3),
-                    Caducidad = reader.GetString(4),
-                    IDTIPSabor = reader.GetInt32(5),
-                    Precio = reader.GetString(6),
-                });
-            }
+                var productos = new ObservableCollection<Productos>();
 
-            return productos;
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM VistaProductos WHERE Nombre LIKE $nombre";
+                command.Parameters.AddWithValue("$nombre", filtro);
+
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    productos.Add(new Productos
+                    {
+                        Id = reader.GetInt32(0),
+                        RutaIcono = reader.GetString(1),
+                        Producto = reader.GetString(2),
+                        Cantidad = reader.GetInt32(3),
+                        Caducidad = reader.GetString(4),
+                        Precio = reader.GetDouble(5),
+                        Sabor = reader.GetString(6),
+                    });
+                }
+
+                return productos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
         public  void InsertarProductos(Productos producto)
         {
-            using var connection = new SqliteConnection(AccesoBD.ConnectionString);
-            connection.Open();
+            try
+            {
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"
-                INSERT INTO InventarioProductos (Icono,Producto,Cantidad,Caducidad,Precio,FKIDTipoSabor)
-                VALUES ($icono,$producto,$cantidad,$precio,$fkidtiposabor);
-            ";
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+                INSERT INTO InventarioProductos (Icono,Nombre,Cantidad,Caducidad,Precio,FKIDTipoSabor)
+                VALUES ($icono,$nombre,$cantidad,$caducidad,$precio,$fkidtiposabor);";
 
-            command.Parameters.AddWithValue("$icono", producto.RutaIcono);
-            command.Parameters.AddWithValue("$producto", producto.Producto);
-            command.Parameters.AddWithValue("$cantidad", producto.Cantidad);
-            command.Parameters.AddWithValue("$precio", producto.Precio);
-            command.Parameters.AddWithValue("$fkidtiposabor", producto.IDTIPSabor);
+                command.Parameters.AddWithValue("$icono", producto.RutaIcono);
+                command.Parameters.AddWithValue("$nombre", producto.Producto);
+                command.Parameters.AddWithValue("$cantidad", producto.Cantidad);
+                command.Parameters.AddWithValue("$caducidad", producto.Caducidad);
+                command.Parameters.AddWithValue("$precio", producto.Precio);
+                command.Parameters.AddWithValue("$fkidtiposabor", producto.IDTIPSabor);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         #endregion
 
         #region TiposSabores
         public List<TiposSabores> ObtenerTipoSabores()
         {
-            var sabores = new List<TiposSabores>();
-
-            using var connection = new SqliteConnection(AccesoBD.ConnectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = "SELECT ID, TipoSabores FROM TipoSabor";
-
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                sabores.Add(new TiposSabores
-                {
-                    Id = reader.GetInt32(0),
-                    Sabor = reader.GetString(1)
-                });
-            }
+                var sabores = new List<TiposSabores>();
 
-            return sabores;
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT ID, TipoSabores FROM TipoSabor";
+
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    sabores.Add(new TiposSabores
+                    {
+                        Id = reader.GetInt32(0),
+                        Sabor = reader.GetString(1)
+                    });
+                }
+
+                return sabores;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
         public void InsertarTipoSabores(TiposSabores producto)
         {
-            using var connection = new SqliteConnection(AccesoBD.ConnectionString);
-            connection.Open();
+            try
+            {
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
 
-            var command = connection.CreateCommand();
-            command.CommandText = @"
+                var command = connection.CreateCommand();
+                command.CommandText = @"
                 INSERT INTO TipoSabor (TipoSabores)
                 VALUES ($tiposabor);
             ";
 
-            command.Parameters.AddWithValue("$tiposabor", producto.Sabor);
+                command.Parameters.AddWithValue("$tiposabor", producto.Sabor);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
         #endregion
 
         #region Sabores
         public ObservableCollection<Sabores> ObtenerSabores(int fkidtiposabor)
         {
-            var sabores = new ObservableCollection<Sabores>();
-
-            using var connection = new SqliteConnection(AccesoBD.ConnectionString);
-            connection.Open();
-
-            var command = connection.CreateCommand();
-            command.CommandText = "SELECT ID, Sabor FROM Sabores WHERE FKIDTipoSabor = @fkid";
-            command.Parameters.AddWithValue("@fkid", fkidtiposabor);
-
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                sabores.Add(new Sabores
-                {
-                    ID = reader.GetInt32(0),
-                    Sabor = reader.GetString(1)
-                });
-            }
+                var sabores = new ObservableCollection<Sabores>();
 
-            return sabores;
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT ID, Sabor FROM Sabores WHERE FKIDTipoSabor = @fkid";
+                command.Parameters.AddWithValue("@fkid", fkidtiposabor);
+
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    sabores.Add(new Sabores
+                    {
+                        ID = reader.GetInt32(0),
+                        Sabor = reader.GetString(1)
+                    });
+                }
+
+                return sabores;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
+        public void InserEditSabores(Sabores producto)
+        {
+            try
+            {
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+
+                var command = connection.CreateCommand();
+
+                if (producto.ID == -1)
+                {
+                    command.CommandText = @"INSERT INTO Sabores (Sabor,FKIDTipoSabor) VALUES ($sabor,$fkid);";
+                    command.Parameters.AddWithValue("$sabor", producto.Sabor);
+                    command.Parameters.AddWithValue("$fkid", producto.FKIDTipoSabor);
+
+                    command.ExecuteNonQuery();
+                }
+                else
+                {
+                    command.CommandText = @"UPDATE Sabores SET Sabor = $sabor WHERE ID = $id;";
+                    command.Parameters.AddWithValue("$sabor", producto.Sabor);
+                    command.Parameters.AddWithValue("$id", producto.ID);
+                    command.ExecuteNonQuery();
+                }
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+
+        public void EliminarSabores(int id)
+        {
+            try
+            {
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Sabores WHERE ID = @id";
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
         #endregion
     }
 }

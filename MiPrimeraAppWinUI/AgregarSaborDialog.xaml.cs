@@ -1,17 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Input;
 using EntidadPeleteria;
 using ManejadoresPaleteria;
@@ -26,12 +16,30 @@ namespace MiPrimeraAppWinUI
         public ContentDialog ParentDialog { get; set; }
         ManejadorInventarioProducto MI;
 
+        bool editar = false;
+        int idedit;
+
         public AgregarSaborDialog()
         {
             this.InitializeComponent();
             MI = new ManejadorInventarioProducto();
 
             LlenarSabores();
+        }
+
+        public AgregarSaborDialog(int tiposabor, string sabor, int id)
+        {
+            this.InitializeComponent();
+            MI = new ManejadorInventarioProducto();
+            LlenarSabores();
+
+            cmbTipoSabores.SelectedValue = tiposabor;
+            cmbTipoSabores.IsEnabled = false;
+            btnMas.Visibility = Visibility.Collapsed;
+            txtSabor.Text = sabor;
+
+            editar = true;
+            idedit = id;
         }
 
         private void Botones_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -121,5 +129,37 @@ namespace MiPrimeraAppWinUI
                 txtTipoSabor.PlaceholderText = "Ingresa Nuevo Tipo Sabor";
             }    
         }
+
+        public bool ProcesarAgregar()
+        {
+            if (cmbTipoSabores.SelectedValue != null && !string.IsNullOrEmpty(txtSabor.Text))
+            {
+                int id = editar ? idedit : -1;
+
+                Sabores sabores = new Sabores
+                {
+                    FKIDTipoSabor = Convert.ToInt32(cmbTipoSabores.SelectedValue),
+                    Sabor = txtSabor.Text.Trim(),
+                    ID = id
+
+                };
+
+                if (sabores != null)
+                {
+                    MI.InserEditSabores(sabores); // Asegúrate que este método exista
+                    return true;
+                }
+            }
+            else
+            {
+                // Resaltar el campo de texto si no se ha ingresado un sabor
+                txtSabor.PlaceholderForeground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Red);
+                txtSabor.PlaceholderText = "Ingresa un Texto Valido o Selecciona Tipo Sabor";
+                return false; // No se pudo procesar la inserción
+            }
+
+            return false; // Algo falló
+        }
+
     }
 }

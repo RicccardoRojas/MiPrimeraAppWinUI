@@ -10,6 +10,6 @@ namespace EntidadPeleteria
         public string Caducidad { get; set; }
         public int IDTIPSabor { get; set; }
         public string Sabor { get; set; }
-        public string Precio { get; set; }
+        public double Precio { get; set; }
     }
 }

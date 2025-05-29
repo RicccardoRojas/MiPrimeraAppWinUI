@@ -10,7 +10,12 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:CommunityToolkit.WinUI.UI.Controls.Primitives"
     mc:Ignorable="d">
-   
+    
+    <Page.Resources>
+        <local:PrecioAFormatoMonedaConverter x:Key="FormatoMonedaConverter"/>
+    </Page.Resources>
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="125"/>
@@ -75,6 +80,7 @@
 
                 <TextBox
                     x:Name="txtBuscar"
+                    TextChanged="txtBuscar_TextChanged"
                     PlaceholderText="Buscar producto..."
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
@@ -98,11 +104,23 @@
                     </controls:DataGrid.ColumnHeaderStyle>
 
                     <controls:DataGrid.Columns>
+
+                        <controls:DataGridTemplateColumn Header="ID" Width="100" Visibility="Collapsed">
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Id}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Center"/>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+
                         <!-- Icono -->
                         <controls:DataGridTemplateColumn Header="Icono" Width="100">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="{Binding Icono}" Width="50" Height="50"/>
+                                    <Image Source="{Binding RutaIcono}" Width="50" Height="50"/>
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
@@ -159,7 +177,7 @@
                         <controls:DataGridTemplateColumn Header="Precio" Width="100">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Precio}"
+                                    <TextBlock Text="{Binding Precio, Converter={StaticResource FormatoMonedaConverter}}"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         TextAlignment="Center"/>
@@ -171,7 +189,7 @@
                         <controls:DataGridTemplateColumn Header="Editar" Width="90">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border Width="60" Height="60" CornerRadius="30">
+                                    <Border Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
                                         <Image Source="/Assets/editar.png"
                                             Width="60" Height="60"
                                             Stretch="UniformToFill"/>
@@ -184,7 +202,7 @@
                         <controls:DataGridTemplateColumn Header="Eliminar" Width="90">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border Width="60" Height="60" CornerRadius="30">
+                                    <Border Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
                                         <Image Source="/Assets/eliminar.png"
                                             Width="60" Height="60"
                                             Stretch="UniformToFill"/>
@@ -240,7 +258,7 @@
                         Margin="0,0,10,0"
                         />
 
-                    <TextBox Grid.Row="0" Grid.Column="1" 
+                    <TextBox Name="txtNombre" Grid.Row="0" Grid.Column="1" 
                         PlaceholderText="Inserta Nombre"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
@@ -257,7 +275,7 @@
                         Margin="0,0,10,0"
                         />
 
-                    <TextBox Grid.Row="1" Grid.Column="1" 
+                    <TextBox Name="txtCantidad" Grid.Row="1" Grid.Column="1" 
                         PlaceholderText="Inserta Cantidad"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
@@ -274,7 +292,7 @@
                         Margin="0,0,10,0"
                         />
 
-                    <DatePicker Grid.Row="2" Grid.Column="1" 
+                    <DatePicker Name="dtpCaducidad" Grid.Row="2" Grid.Column="1" 
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         Margin="10,0,30,0"
@@ -290,7 +308,8 @@
                         Margin="0,0,10,0"
                         />
 
-                    <TextBox Grid.Row="3" Grid.Column="1" 
+                    <TextBox Name="txtPrecio" Grid.Row="3" Grid.Column="1" 
+                        TextChanged="txtPrecio_TextChanged"
                         PlaceholderText="Inserta Precio"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
@@ -415,10 +434,22 @@
                         <controls:DataGrid.Columns>
 
                             <!-- Producto -->
+
+                            <controls:DataGridTemplateColumn Header="ID" Width="100" Visibility="Collapsed">
+                                <controls:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ID}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </controls:DataGridTemplateColumn.CellTemplate>
+                            </controls:DataGridTemplateColumn>
+
                             <controls:DataGridTemplateColumn Header="Sabor" Width="*">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Sabor}"
+                                        <TextBlock Name="textSabor" Text="{Binding Sabor}"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             TextAlignment="Center"/>
@@ -429,7 +460,7 @@
                             <controls:DataGridTemplateColumn Header="Editar" Width="90">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Border Width="50" Height="50" CornerRadius="25">
+                                        <Border Name="btnEditar" Tapped="btnEditar_Tapped" Width="50" Height="50" CornerRadius="25" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
                                             <Image Source="/Assets/editar.png"
                                                 Width="50" Height="50"
                                                 Stretch="UniformToFill"/>
@@ -442,7 +473,7 @@
                             <controls:DataGridTemplateColumn Header="Eliminar" Width="90">
                                 <controls:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Border Width="50" Height="50" CornerRadius="25">
+                                        <Border Name="btnEliminar" Tapped="btnEliminar_Tapped" Width="50" Height="50" CornerRadius="25" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
                                             <Image Source="/Assets/eliminar.png"
                                                 Width="50" Height="50"
                                                 Stretch="UniformToFill"/>
