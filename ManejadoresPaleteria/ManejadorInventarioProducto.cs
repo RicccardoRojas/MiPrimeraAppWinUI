@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using EntidadPeleteria;
 using AccesosDatos;
 using System.Collections.ObjectModel;
@@ -54,23 +52,60 @@ namespace ManejadoresPaleteria
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = @"
-                INSERT INTO InventarioProductos (Icono,Nombre,Cantidad,Caducidad,Precio,FKIDTipoSabor)
-                VALUES ($icono,$nombre,$cantidad,$caducidad,$precio,$fkidtiposabor);";
 
-                command.Parameters.AddWithValue("$icono", producto.RutaIcono);
-                command.Parameters.AddWithValue("$nombre", producto.Producto);
-                command.Parameters.AddWithValue("$cantidad", producto.Cantidad);
-                command.Parameters.AddWithValue("$caducidad", producto.Caducidad);
-                command.Parameters.AddWithValue("$precio", producto.Precio);
-                command.Parameters.AddWithValue("$fkidtiposabor", producto.IDTIPSabor);
+                if(producto.Id == -1)
+                {
+                    command.CommandText = @"INSERT INTO InventarioProductos (Icono,Nombre,Cantidad,Caducidad,Precio,FKIDTipoSabor)
+                    VALUES ($icono,$nombre,$cantidad,$caducidad,$precio,$fkidtiposabor);";
 
-                command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("$icono", producto.RutaIcono);
+                    command.Parameters.AddWithValue("$nombre", producto.Producto);
+                    command.Parameters.AddWithValue("$cantidad", producto.Cantidad);
+                    command.Parameters.AddWithValue("$caducidad", producto.Caducidad);
+                    command.Parameters.AddWithValue("$precio", producto.Precio);
+                    command.Parameters.AddWithValue("$fkidtiposabor", producto.IDTIPSabor);
+
+                    command.ExecuteNonQuery();
+                }
+                else
+                {
+                    command.CommandText = @"UPDATE InventarioProductos SET Icono = $icono, Nombre = $nombre, Cantidad = $cantidad, Caducidad = $caducidad, Precio = $precio, FKIDTipoSabor = $fkidtiposabor WHERE ID = $id;";
+                    command.Parameters.AddWithValue("$icono", producto.RutaIcono);
+                    command.Parameters.AddWithValue("$nombre", producto.Producto);
+                    command.Parameters.AddWithValue("$cantidad", producto.Cantidad);
+                    command.Parameters.AddWithValue("$caducidad", producto.Caducidad);
+                    command.Parameters.AddWithValue("$precio", producto.Precio);
+                    command.Parameters.AddWithValue("$fkidtiposabor", producto.IDTIPSabor);
+                    command.Parameters.AddWithValue("$id", producto.Id);
+                    command.ExecuteNonQuery();
+                }
+
+                
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        public bool EliminarProductos(int id)
+        {
+            try
+            {
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM InventarioProductos WHERE ID = @id";
+                command.Parameters.AddWithValue("@id", id);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
         }
         #endregion
 

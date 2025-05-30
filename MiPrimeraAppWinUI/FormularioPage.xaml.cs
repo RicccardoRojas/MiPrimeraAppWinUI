@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ManejadoresPaleteria;
+using EntidadPeleteria;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -16,11 +18,15 @@ namespace MiPrimeraAppWinUI
 
     public sealed partial class FormularioPage : Page
     {
+        ManejadorInventarioProducto MI;
         double total = 0.0;
         public FormularioPage()
         {
             this.InitializeComponent();
+            MI = new ManejadorInventarioProducto();
             txtTotal.Text = "TOTAL: \n$" + total.ToString("F2");
+
+            gridViewProductos.ItemsSource = MI.ObtenerProductos("%");
         }
 
         private void btnCantidad_PointerExited(object sender, PointerRoutedEventArgs e)

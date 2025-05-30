@@ -2,6 +2,8 @@
     x:Class="MiPrimeraAppWinUI.FormularioPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ent="using:EntidadPeleteria"
     xmlns:local="using:MiPrimeraAppWinUI">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -115,45 +117,39 @@
                     Height="20"
                     PlaceholderText="Nombre del producto"/>
 
-                <!-- Scroll de los botones -->
+
+
                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                    <GridView x:Name="gridViewProductos"    
+                        IsItemClickEnabled="True"
+                        SelectionMode="None"
+                        Margin="10"
+                        HorizontalAlignment="Stretch">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <!-- Define tamaño fijo para que celdas sean uniformes -->
+                                <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
 
-                        <!-- Primera Columna -->
-                        <local:BotonProductos Grid.Row="0" Grid.Column="0" />
-                        <local:BotonProductos Grid.Row="1" Grid.Column="0" />
-                        <local:BotonProductos Grid.Row="2" Grid.Column="0" />
-                        <local:BotonProductos Grid.Row="3" Grid.Column="0" />
-                        <local:BotonProductos Grid.Row="4" Grid.Column="0" />
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="ent:Productos">
+                                <local:BotonProductos 
+                    Texto="{x:Bind Producto}" 
+                    RutaIcono="{x:Bind RutaIcono}" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
 
-                        <!-- Segunda Columna -->
-                        <local:BotonProductos Grid.Row="0" Grid.Column="1" />
-                        <local:BotonProductos Grid.Row="1" Grid.Column="1" />
-                        <local:BotonProductos Grid.Row="2" Grid.Column="1" />
-                        <local:BotonProductos Grid.Row="3" Grid.Column="1" />
-                        <local:BotonProductos Grid.Row="4" Grid.Column="1" />
-
-                        <!-- Tercera Columna -->
-                        <local:BotonProductos Grid.Row="0" Grid.Column="2" />
-                        <local:BotonProductos Grid.Row="1" Grid.Column="2" />
-                        <local:BotonProductos Grid.Row="2" Grid.Column="2" />
-                        <local:BotonProductos Grid.Row="3" Grid.Column="2" />
-                        <local:BotonProductos Grid.Row="4" Grid.Column="2" />
-                    </Grid>
+                    </GridView>
                 </ScrollViewer>
+
+
+
+
+
 
             </Grid>
 

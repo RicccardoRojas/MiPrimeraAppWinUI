@@ -25,7 +25,32 @@ namespace MiPrimeraAppWinUI
             this.InitializeComponent();
         }
 
-        
+        public string Texto
+        {
+            get => (string)GetValue(TextoProperty);
+            set => SetValue(TextoProperty, value);
+        }
+
+        public static readonly DependencyProperty TextoProperty =
+            DependencyProperty.Register(nameof(Texto), typeof(string), typeof(BotonProductos), new PropertyMetadata("HELADO"));
+
+        public string RutaIcono
+        {
+            get => (string)GetValue(RutaIconoProperty);
+            set => SetValue(RutaIconoProperty, value);
+        }
+
+        public static readonly DependencyProperty RutaIconoProperty =
+            DependencyProperty.Register(nameof(RutaIcono), typeof(string), typeof(BotonProductos), new PropertyMetadata("Assets/helado-menu.png"));
+
+        public string TagID
+        {
+            get => (string)GetValue(TagIDProperty);
+            set => SetValue(TagIDProperty, value);
+        }
+
+        public static readonly DependencyProperty TagIDProperty =
+            DependencyProperty.Register(nameof(TagID), typeof(string), typeof(BotonProductos), new PropertyMetadata("0"));
 
     }
 }

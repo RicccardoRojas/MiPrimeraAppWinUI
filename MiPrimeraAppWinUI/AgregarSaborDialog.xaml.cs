@@ -42,16 +42,18 @@ namespace MiPrimeraAppWinUI
             idedit = id;
         }
 
+        #region Eventos Botones
         private void Botones_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             this.ProtectedCursor = null;
         }
-
         private void Botones_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             this.ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
         }
+        #endregion
 
+        #region Botones
         private void btnMas_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (btnMas.Tag?.ToString() == "Ingresar")
@@ -64,14 +66,6 @@ namespace MiPrimeraAppWinUI
 
             }
         }
-
-        void LlenarSabores()
-        {
-            cmbTipoSabores.ItemsSource = MI.ObtenerTipoSabores();
-            cmbTipoSabores.DisplayMemberPath = "Sabor";
-            cmbTipoSabores.SelectedValuePath = "Id";
-        }
-
         private async void btnVerificar_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtTipoSabor.Text))
@@ -92,7 +86,15 @@ namespace MiPrimeraAppWinUI
                 txtTipoSabor.PlaceholderText = "Ingresa un Valor Valido";
             }
         }
+        #endregion
 
+        #region Metodos
+        void LlenarSabores()
+        {
+            cmbTipoSabores.ItemsSource = MI.ObtenerTipoSabores();
+            cmbTipoSabores.DisplayMemberPath = "Sabor";
+            cmbTipoSabores.SelectedValuePath = "Id";
+        }
         void EstadoInsercion(bool estado)
         {
             if (estado)
@@ -127,9 +129,8 @@ namespace MiPrimeraAppWinUI
 
                 txtTipoSabor.PlaceholderForeground = null;
                 txtTipoSabor.PlaceholderText = "Ingresa Nuevo Tipo Sabor";
-            }    
+            }
         }
-
         public bool ProcesarAgregar()
         {
             if (cmbTipoSabores.SelectedValue != null && !string.IsNullOrEmpty(txtSabor.Text))
@@ -160,6 +161,9 @@ namespace MiPrimeraAppWinUI
 
             return false; // Algo falló
         }
+        #endregion
+
+
 
     }
 }

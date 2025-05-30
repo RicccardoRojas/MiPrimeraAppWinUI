@@ -189,7 +189,7 @@
                         <controls:DataGridTemplateColumn Header="Editar" Width="90">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
+                                    <Border Name="btnEditarProduct" Tapped="btnEditarProduct_Tapped" Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
                                         <Image Source="/Assets/editar.png"
                                             Width="60" Height="60"
                                             Stretch="UniformToFill"/>
@@ -202,7 +202,7 @@
                         <controls:DataGridTemplateColumn Header="Eliminar" Width="90">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Border Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
+                                    <Border Name="btnEliminarProduct" Tapped="btnEliminarProduct_Tapped" Width="60" Height="60" CornerRadius="30" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
                                         <Image Source="/Assets/eliminar.png"
                                             Width="60" Height="60"
                                             Stretch="UniformToFill"/>
@@ -351,6 +351,17 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         Margin="10,0,30,0"/>
+
+                    <Button Grid.Row="6" Grid.Column="1" Name="btnCancelar"
+                        Visibility="Collapsed"
+                        Content="Cancelar"
+                        Click="btnCancelar_Click"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Red"
+                        Foreground="White"
+                        Margin="0,0,120,0"
+                    />
 
                     <Button Grid.Row="6" Grid.Column="1" Name="btnGuardar"
                         Content="Guardar"
