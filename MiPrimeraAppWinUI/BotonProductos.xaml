@@ -5,7 +5,10 @@
     xmlns:local="using:MiPrimeraAppWinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
     mc:Ignorable="d">
+
 
     <Grid Background="LightBlue">
         <Button BorderThickness="0"
@@ -15,12 +18,31 @@
                 Tag="{x:Bind TagID, Mode=OneWay}"
                 Padding="10">
 
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                <Image Source="{x:Bind RutaIcono, Mode=OneWay}"
-                       Height="80" Stretch="Uniform"/>
-                <TextBlock Text="{x:Bind Texto}" FontSize="20" FontWeight="Bold"
-                           HorizontalAlignment="Center" TextWrapping="Wrap"/>
-            </StackPanel>
+            <!-- Centrado del contenido -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Spacing="10"
+                            Width="Auto">
+                    <Image Source="{x:Bind RutaIcono, Mode=OneWay}"
+                           Height="80"
+                           Stretch="Uniform"/>
+                    <TextBlock Text="{x:Bind Producto, Mode=OneWay}" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               HorizontalAlignment="Center" 
+                               TextAlignment="Center" 
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
 
         </Button>
     </Grid>

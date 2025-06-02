@@ -108,6 +108,8 @@
 
                 <!-- TextBox fijo arriba -->
                 <TextBox
+                    Name="txtBuscarProducto"
+                    TextChanged="txtBuscarProducto_TextChanged"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     Grid.Row="0"
@@ -120,37 +122,43 @@
 
 
                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
-                    <GridView x:Name="gridViewProductos"    
+                    <GridView x:Name="gridViewProductos"
                         IsItemClickEnabled="True"
                         SelectionMode="None"
-                        Margin="10"
-                        HorizontalAlignment="Stretch">
+                        Margin="20,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        SizeChanged="GridViewProductos_SizeChanged">
 
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <!-- Define tamaño fijo para que celdas sean uniformes -->
-                                <ItemsWrapGrid Orientation="Horizontal" MaximumRowsOrColumns="3"/>
+                                <ItemsWrapGrid x:Name="itemsWrapGrid"
+                               Orientation="Horizontal"
+                               MaximumRowsOrColumns="3"
+                               ItemHeight="250"/>
                             </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
+
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </GridView.ItemContainerStyle>
 
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="ent:Productos">
                                 <local:BotonProductos 
-                    Texto="{x:Bind Producto}" 
-                    RutaIcono="{x:Bind RutaIcono}" 
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Stretch"/>
+                                    Tapped="BotonProductos_Tapped"
+                                    TagID="{x:Bind Id}"
+                                    Producto="{x:Bind Producto}" 
+                                    RutaIcono="{x:Bind RutaIcono}" 
+                                    HorizontalAlignment="Stretch" 
+                                    VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
-
                     </GridView>
                 </ScrollViewer>
-
-
-
-
-
-
+                
             </Grid>
 
 
@@ -191,7 +199,6 @@
 
 
                     <TextBlock Name="txtTipoHelado" Grid.Row="1" Grid.Column="1" 
-                        Text="HELADO DOBLE"
                         FontFamily="Ebrima"
                         FontSize="25"
                         FontWeight="Bold"
@@ -215,18 +222,6 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Margin="10,0,0,0">
-
-                        <ComboBoxItem Content="Gansito"/>
-                        <ComboBoxItem Content="Chocolate"/>
-                        <ComboBoxItem Content="Vainilla"/>
-                        <ComboBoxItem Content="Queso"/>
-                        <ComboBoxItem Content="Oreo"/>
-                        <ComboBoxItem Content="Cafe"/>
-                        <ComboBoxItem Content="Fresas C/Crema"/>
-                        <ComboBoxItem Content="Limon"/>
-                        <ComboBoxItem Content="Frutos Secos"/>
-                        <ComboBoxItem Content="Fresa"/>
-                        <ComboBoxItem Content="Fresa de Agua"/>
                         
                     </ComboBox>
 
@@ -240,7 +235,6 @@
 
 
                     <TextBlock Name="txtPrecioUnitario" Grid.Row="3" Grid.Column="1" 
-                        Text="$20.00"
                         FontFamily="Ebrima"
                         FontSize="25"
                         FontWeight="Bold"

@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Input;
+using Microsoft.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -22,6 +23,7 @@ namespace MiPrimeraAppWinUI
     public sealed partial class ListaCarrito : UserControl
     {
         public event Action<double> FilaEliminada;
+        public event Action<string, double, string, int> FilaEditada;
 
         public ListaCarrito()
         {
@@ -104,12 +106,39 @@ namespace MiPrimeraAppWinUI
             {
                 FilaEliminada?.Invoke(valor); // Dispara el evento y pasa el valor restado
             }
+
+        }
+
+        public void EditarFila()
+        {
+            var parent = this.Parent as Panel;
+            if (parent != null)
+            {
+                // Cambia el fondo para indicar visualmente que se está editando
+                borderColor.Background = new SolidColorBrush(Colors.LightGreen);
+
+                // Extrae los valores
+                string nombre = txtNombre.Text;
+                string descripcion = txtDescripcion.Text;
+                string precioStr =  Precio.Replace("$", "").Trim();
+                int cantidad = int.Parse(txtCantidad.Text);
+
+                if (double.TryParse(precioStr, out double precio))
+                {
+                    FilaEditada?.Invoke(nombre, precio, descripcion, cantidad);
+                }
+            }
         }
 
 
         private void btnEliminar_Tapped(object sender, TappedRoutedEventArgs e)
         {
             EliminarFila();
+        }
+
+        private void btnEditar_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            EditarFila();
         }
     }
 }

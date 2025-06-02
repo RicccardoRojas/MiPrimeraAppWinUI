@@ -20,8 +20,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,0,10,10"/>
-
+        <Border Name="borderColor" Grid.ColumnSpan="7" Background="LightGray" CornerRadius="5" Margin="10,0,10,10"/>
+    
         <Border Grid.Column="0" Background="LightSkyBlue" CornerRadius="5" Margin="10,0,10,10">
             <Image
                 Source="{Binding Imagen, ElementName=Carrito}"
@@ -30,10 +30,10 @@
                 VerticalAlignment="Center" />
         </Border>
 
-        <TextBlock Grid.Column="1" Text="{Binding Nombre, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBlock Grid.Column="2" Text="{Binding Descripcion, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBlock Grid.Column="3" Text="{Binding Precio, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBlock Grid.Column="4" Text="{Binding Cantidad, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Name="txtNombre" Grid.Column="1" Text="{Binding Nombre, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Name="txtDescripcion" Grid.Column="2" Text="{Binding Descripcion, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Name="txtPrecio" Grid.Column="3" Text="{Binding Precio, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Name="txtCantidad" Grid.Column="4" Text="{Binding Cantidad, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
         <TextBlock Name="txtSubTotal" Grid.Column="5" Text="{Binding Total, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
 
         <Grid Grid.Column="6">
@@ -42,7 +42,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" Width="50" Height="50" CornerRadius="25" Margin="0,0,10,10" PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited">
+            <Border Name="btnEditar" Grid.Column="0" Width="50" Height="50" CornerRadius="25" Margin="0,0,10,10" 
+                    PointerEntered="Botones_PointerEntered" PointerExited="Botones_PointerExited"
+                    Tapped="btnEditar_Tapped"
+                    >
                 <Image
                     Source="/Assets/editar.png"
                     Stretch="Uniform"

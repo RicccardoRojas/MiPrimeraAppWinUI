@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using ManejadoresPaleteria;
 using EntidadPeleteria;
+using System.Collections.Generic;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,13 +21,25 @@ namespace MiPrimeraAppWinUI
     {
         ManejadorInventarioProducto MI;
         double total = 0.0;
+        string rutacarrito = "";
         public FormularioPage()
         {
             this.InitializeComponent();
             MI = new ManejadorInventarioProducto();
             txtTotal.Text = "TOTAL: \n$" + total.ToString("F2");
 
-            gridViewProductos.ItemsSource = MI.ObtenerProductos("%");
+            Actualizar("%");
+        }
+        void RellenarSabores(int fkid)
+        {
+            //Consulta Sabores 
+            cmbSabores.ItemsSource = MI.ObtenerSaboresLista(fkid);
+
+            //Tipos de Productos Formulario (Mostrar)
+            cmbSabores.DisplayMemberPath = "Sabor";
+            cmbSabores.SelectedValuePath = "Id";
+
+            cmbSabores.SelectedIndex = -1; 
         }
 
         private void btnCantidad_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -96,7 +109,9 @@ namespace MiPrimeraAppWinUI
         
         private async void btnVerificar_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtTipoHelado.Text) || string.IsNullOrEmpty((cmbSabores.SelectedItem as ComboBoxItem)?.Content?.ToString()) || string.IsNullOrEmpty(txtCantidad.Text))
+            var saborSeleccionado = cmbSabores.SelectedItem as Sabores;
+
+            if (string.IsNullOrEmpty(txtTipoHelado.Text) || string.IsNullOrEmpty(saborSeleccionado.Sabor) || string.IsNullOrEmpty(txtCantidad.Text))
             {
                 var dialog = new ContentDialog
                 {
@@ -114,8 +129,8 @@ namespace MiPrimeraAppWinUI
                 double precio = double.Parse(txtPrecioUnitario.Text.Replace("$", "").Trim());
                 double subtotal = Math.Round(precio * int.Parse(txtCantidad.Text), 2);
 
-                AgregarItemAlCarrito(txtTipoHelado.Text, (cmbSabores.SelectedItem as ComboBoxItem)?.Content?.ToString(),txtPrecioUnitario.Text, int.Parse(txtCantidad.Text), 
-                    subtotal, "/Assets/helado.png");
+                AgregarItemAlCarrito(txtTipoHelado.Text, saborSeleccionado.Sabor, txtPrecioUnitario.Text, int.Parse(txtCantidad.Text), 
+                    subtotal, rutacarrito);
 
                 txtTotal.Text = $"TOTAL: \n${(total += subtotal).ToString("F2")}" ;
             }
@@ -139,6 +154,18 @@ namespace MiPrimeraAppWinUI
                 total -= valor;
                 txtTotal.Text = $"TOTAL:\n${total.ToString("F2")}";
             };
+
+            nuevoItem.FilaEditada += (nombre, precio, descripcion, cantidad) =>
+            {
+                // Aquí haces lo que necesites con los datos editados
+                txtTipoHelado.Text = nombre;
+                txtPrecioUnitario.Text = precio.ToString("F2");
+                cmbSabores.SelectedItem = cmbSabores.Items
+                    .Cast<object>()
+                    .FirstOrDefault(item => ((Sabores)item).Sabor == descripcion);
+                txtCantidad.Text = cantidad.ToString();
+            };
+
 
             PanelCarrito.Children.Add(nuevoItem);
             
@@ -164,5 +191,62 @@ namespace MiPrimeraAppWinUI
             btnPagoEfectivo.Background = new SolidColorBrush(Colors.LightGreen);
         }
 
+        private void GridViewProductos_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            // Asegúrate de tener 3 columnas visibles, con margen
+            const int columnas = 3;
+            const double margenTotal = 15; // margen exterior + padding entre columnas
+
+            if (gridViewProductos.ItemsPanelRoot is ItemsWrapGrid panel)
+            {
+                double anchoDisponible = gridViewProductos.ActualWidth - margenTotal;
+
+                if (anchoDisponible > 0)
+                {
+                    double anchoPorColumna = anchoDisponible / columnas;
+                    panel.ItemWidth = anchoPorColumna;
+                }
+            }
+        }
+
+        private void txtBuscarProducto_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Actualizar(txtBuscarProducto.Text.Trim() == "" ? "%" : $"%{txtBuscarProducto.Text.Trim()}%");
+        }
+
+        void Actualizar(string Filtro)
+        {
+            gridViewProductos.ItemsSource = MI.ObtenerProductos(Filtro);
+        }
+
+        private async void BotonProductos_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is FrameworkElement element && element.DataContext is Productos filaSeleccionada)
+                {
+                    List<Productos> productos = MI.ObtenerProductosCompra(filaSeleccionada.Id);
+                    foreach (var produc in productos)
+                    {
+                        txtTipoHelado.Text = produc.Producto;
+                        RellenarSabores(produc.IDTIPSabor);
+                        txtPrecioUnitario.Text = produc.Precio.ToString("C2");
+                        rutacarrito = produc.RutaIcono;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = $"Error al Consultar",
+                    Content = ex.Message,
+                    CloseButtonText = "Cancelar",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot
+                };
+                dialog.ShowAsync();
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace ManejadoresPaleteria
                     {
                         Id = reader.GetInt32(0),
                         RutaIcono = reader.GetString(1),
-                        Producto = reader.GetString(2),
+                        Producto = reader.GetString(2).ToUpper(),
                         Cantidad = reader.GetInt32(3),
                         Caducidad = reader.GetString(4),
                         Precio = reader.GetDouble(5),
@@ -43,6 +43,44 @@ namespace ManejadoresPaleteria
                 throw;
             }
             
+        }
+
+        public List<Productos> ObtenerProductosCompra(int id)
+        {
+            try
+            {
+                var productos = new List<Productos>();
+
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM InventarioProductos WHERE id = $id;";
+                command.Parameters.AddWithValue("id", id);
+
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    productos.Add(new Productos
+                    {
+                        Id = reader.GetInt32(0),
+                        RutaIcono = reader.GetString(1),
+                        Producto = reader.GetString(2).ToUpper(),
+                        Cantidad = reader.GetInt32(3),
+                        Caducidad = reader.GetString(4),
+                        Precio = reader.GetDouble(5),
+                        IDTIPSabor = reader.GetInt32(6),
+                    });
+                }
+
+                return productos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
         public  void InsertarProductos(Productos producto)
         {
@@ -198,6 +236,37 @@ namespace ManejadoresPaleteria
                 throw;
             }
             
+        }
+        public List<Sabores> ObtenerSaboresLista(int fkidtiposabor)
+        {
+            try
+            {
+                var sabores = new List<Sabores>();
+
+                using var connection = new SqliteConnection(AccesoBD.ConnectionString);
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT ID, Sabor FROM Sabores WHERE FKIDTipoSabor = @fkid";
+                command.Parameters.AddWithValue("@fkid", fkidtiposabor);
+
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    sabores.Add(new Sabores
+                    {
+                        ID = reader.GetInt32(0),
+                        Sabor = reader.GetString(1)
+                    });
+                }
+
+                return sabores;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         public void InserEditSabores(Sabores producto)

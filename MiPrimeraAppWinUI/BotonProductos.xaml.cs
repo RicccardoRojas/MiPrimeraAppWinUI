@@ -25,14 +25,14 @@ namespace MiPrimeraAppWinUI
             this.InitializeComponent();
         }
 
-        public string Texto
+        public string Producto
         {
-            get => (string)GetValue(TextoProperty);
-            set => SetValue(TextoProperty, value);
+            get => (string)GetValue(ProductoProperty);
+            set => SetValue(ProductoProperty, value);
         }
 
-        public static readonly DependencyProperty TextoProperty =
-            DependencyProperty.Register(nameof(Texto), typeof(string), typeof(BotonProductos), new PropertyMetadata("HELADO"));
+        public static readonly DependencyProperty ProductoProperty =
+            DependencyProperty.Register(nameof(Producto), typeof(string), typeof(BotonProductos), new PropertyMetadata("HELADO"));
 
         public string RutaIcono
         {
