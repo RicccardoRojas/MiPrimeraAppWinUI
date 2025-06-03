@@ -10,18 +10,19 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using ManejadoresPaleteria;
 using EntidadPeleteria;
 using System.Collections.Generic;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using HarfBuzzSharp;
+using static MiPrimeraAppWinUI.RegistroVenta;
 
 namespace MiPrimeraAppWinUI
 {
-
     public sealed partial class FormularioPage : Page
     {
         ManejadorInventarioProducto MI;
-        double total = 0.0;
+        private ListaCarrito itemEditando = null;
+        double total = 0.0, subtotalAnterior = 0;
         string rutacarrito = "";
+        int fkidtiposabor = 0;
+        bool Editar = false;
         public FormularioPage()
         {
             this.InitializeComponent();
@@ -106,12 +107,89 @@ namespace MiPrimeraAppWinUI
                 _suppressTextChanged = false;
             }
         }
-        
+
+        private void ConfirmarEdicion()
+        {
+            if (itemEditando != null)
+            {
+                itemEditando.Nombre = txtTipoHelado.Text;
+                itemEditando.Descripcion = ((Sabores)cmbSabores.SelectedItem).Sabor.ToUpper();
+                itemEditando.Precio = txtPrecioUnitario.Text;
+                itemEditando.Cantidad = txtCantidad.Text;
+
+                string precioTexto = txtPrecioUnitario.Text.Replace("$", "").Trim();
+
+                if (double.TryParse(precioTexto, out double precio) &&
+                    int.TryParse(txtCantidad.Text, out int cantidad))
+                {
+                    double nuevoSubtotal = precio * cantidad;
+                    itemEditando.Total = $"${nuevoSubtotal:F2}";
+                }
+
+
+                itemEditando.RestaurarColor();
+                itemEditando = null; // Limpia la referencia
+            }
+        }
+
+        private void LimpiarRegistro()
+        {
+            txtTipoHelado.Text = string.Empty;
+            cmbSabores.ItemsSource = null;
+            txtPrecioUnitario.Text = string.Empty;
+            txtCantidad.Text = "1";
+            Editar = false; // Resetea el estado de edición
+            subtotalAnterior = 0; // Resetea el subtotal anterior
+            itemEditando = null; // Limpia la referencia al item editando
+        }
+
         private async void btnVerificar_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var saborSeleccionado = cmbSabores.SelectedItem as Sabores;
+            try
+            {
 
-            if (string.IsNullOrEmpty(txtTipoHelado.Text) || string.IsNullOrEmpty(saborSeleccionado.Sabor) || string.IsNullOrEmpty(txtCantidad.Text))
+                var saborSeleccionado = cmbSabores.SelectedItem as Sabores;
+
+                if (string.IsNullOrEmpty(txtTipoHelado.Text) || string.IsNullOrEmpty(saborSeleccionado.Sabor) || string.IsNullOrEmpty(txtCantidad.Text))
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Campos obligatorios",
+                        Content = "Por favor, completa todos los campos antes de continuar.",
+                        CloseButtonText = "OK",
+                        XamlRoot = this.Content.XamlRoot // Necesario para que funcione en WinUI 3
+                    };
+
+                    await dialog.ShowAsync();
+                    return;
+                }
+                else if (Editar)
+                {
+                    ConfirmarEdicion();
+
+                    double precio = double.Parse(txtPrecioUnitario.Text.Replace("$", "").Trim());
+                    int cantidad = int.Parse(txtCantidad.Text);
+                    double subtotalNuevo = Math.Round(precio * cantidad, 2);
+                    total = total - subtotalAnterior + subtotalNuevo;
+
+                    txtTotal.Text = $"TOTAL:\n${total.ToString("F2")}";
+
+                    LimpiarRegistro();
+                }
+                else if (!Editar)
+                {
+                    double precio = double.Parse(txtPrecioUnitario.Text.Replace("$", "").Trim());
+                    double subtotal = Math.Round(precio * int.Parse(txtCantidad.Text), 2);
+
+                    AgregarItemAlCarrito(txtTipoHelado.Text, saborSeleccionado.Sabor, txtPrecioUnitario.Text, int.Parse(txtCantidad.Text),
+                        subtotal, rutacarrito);
+
+                    txtTotal.Text = $"TOTAL: \n${(total += subtotal).ToString("F2")}";
+
+                    LimpiarRegistro();
+                }
+            }
+            catch (Exception)
             {
                 var dialog = new ContentDialog
                 {
@@ -124,16 +202,7 @@ namespace MiPrimeraAppWinUI
                 await dialog.ShowAsync();
                 return;
             }
-            else
-            {
-                double precio = double.Parse(txtPrecioUnitario.Text.Replace("$", "").Trim());
-                double subtotal = Math.Round(precio * int.Parse(txtCantidad.Text), 2);
-
-                AgregarItemAlCarrito(txtTipoHelado.Text, saborSeleccionado.Sabor, txtPrecioUnitario.Text, int.Parse(txtCantidad.Text), 
-                    subtotal, rutacarrito);
-
-                txtTotal.Text = $"TOTAL: \n${(total += subtotal).ToString("F2")}" ;
-            }
+            
                 
         }
 
@@ -143,6 +212,7 @@ namespace MiPrimeraAppWinUI
             {
                 Nombre = Nombre,
                 Descripcion = Sabor.ToUpper(),
+                TAGID = fkidtiposabor,
                 Precio = precio,
                 Cantidad = cantidad.ToString(),
                 Total = $"${subtotal.ToString("F2")}",
@@ -155,16 +225,35 @@ namespace MiPrimeraAppWinUI
                 txtTotal.Text = $"TOTAL:\n${total.ToString("F2")}";
             };
 
-            nuevoItem.FilaEditada += (nombre, precio, descripcion, cantidad) =>
+            nuevoItem.FilaEditada += (nombre, precio, descripcion, cantidad, tagId) =>
             {
-                // Aquí haces lo que necesites con los datos editados
+                Editar = true;
+                // Restaurar el color del item anterior (si hay)
+                if (itemEditando != null && itemEditando != nuevoItem)
+                {
+                    itemEditando.RestaurarColor();
+                }
+
+                // Guardar este como el nuevo item editando
+                itemEditando = nuevoItem;
+
+                // Mostrar los datos en controles principales
                 txtTipoHelado.Text = nombre;
-                txtPrecioUnitario.Text = precio.ToString("F2");
-                cmbSabores.SelectedItem = cmbSabores.Items
-                    .Cast<object>()
-                    .FirstOrDefault(item => ((Sabores)item).Sabor == descripcion);
+                txtPrecioUnitario.Text = precio.ToString("C2");
+                RellenarSabores(tagId);
+
+                var saborSeleccionado = cmbSabores.Items.Cast<Sabores>()
+                    .FirstOrDefault(s => s.Sabor.Equals(descripcion, StringComparison.OrdinalIgnoreCase));
+                if (saborSeleccionado != null)
+                {
+                    cmbSabores.SelectedItem = saborSeleccionado;
+                }
+
                 txtCantidad.Text = cantidad.ToString();
+
+                subtotalAnterior = precio * cantidad;
             };
+
 
 
             PanelCarrito.Children.Add(nuevoItem);
@@ -219,17 +308,49 @@ namespace MiPrimeraAppWinUI
             gridViewProductos.ItemsSource = MI.ObtenerProductos(Filtro);
         }
 
+        private void btnPagar_Click(object sender, RoutedEventArgs e)
+        {
+            var productos = new List<ItemVenta>();
+
+            foreach (var child in PanelCarrito.Children)
+            {
+                if (child is ListaCarrito item)
+                {
+                    string nombre = $"{item.Nombre} {item.Descripcion}";
+                    int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
+                    double precio = double.Parse(item.Precio.Replace("$",""));
+                    double subtotal = cantidad * precio;
+
+                    productos.Add(new ItemVenta
+                    {
+                        Nombre = nombre,
+                        Cantidad = cantidad,
+                        PrecioUnitario = precio,
+                    });
+                }
+            }
+
+            double total = productos.Sum(p => p.Subtotal);
+
+            var generador = new ManejadorGenerarTicket();
+            generador.GenerarTicketPDF(productos, total);
+
+        }
+
         private async void BotonProductos_Tapped(object sender, TappedRoutedEventArgs e)
         {
             try
             {
                 if (sender is FrameworkElement element && element.DataContext is Productos filaSeleccionada)
                 {
+                    Editar = false;
+                    subtotalAnterior = 0; // Resetea el subtotal anterior
                     List<Productos> productos = MI.ObtenerProductosCompra(filaSeleccionada.Id);
                     foreach (var produc in productos)
                     {
                         txtTipoHelado.Text = produc.Producto;
                         RellenarSabores(produc.IDTIPSabor);
+                        fkidtiposabor = produc.IDTIPSabor;
                         txtPrecioUnitario.Text = produc.Precio.ToString("C2");
                         rutacarrito = produc.RutaIcono;
                     }

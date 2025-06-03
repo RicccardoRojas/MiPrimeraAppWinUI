@@ -23,12 +23,21 @@ namespace MiPrimeraAppWinUI
     public sealed partial class ListaCarrito : UserControl
     {
         public event Action<double> FilaEliminada;
-        public event Action<string, double, string, int> FilaEditada;
+        public event Action<string, double, string, int,int> FilaEditada;
 
         public ListaCarrito()
         {
             this.InitializeComponent();
         }
+
+        public int TAGID
+        {
+            get => (int)GetValue(TAGIDProperty);
+            set => SetValue(TAGIDProperty, value);
+        }
+
+        public static readonly DependencyProperty TAGIDProperty =
+            DependencyProperty.Register(nameof(TAGID), typeof(int), typeof(ListaCarrito), new PropertyMetadata(""));
 
         public string Nombre
         {
@@ -122,13 +131,20 @@ namespace MiPrimeraAppWinUI
                 string descripcion = txtDescripcion.Text;
                 string precioStr =  Precio.Replace("$", "").Trim();
                 int cantidad = int.Parse(txtCantidad.Text);
+                int tagId = int.Parse(txtDescripcion.Tag.ToString());
 
                 if (double.TryParse(precioStr, out double precio))
                 {
-                    FilaEditada?.Invoke(nombre, precio, descripcion, cantidad);
+                    FilaEditada?.Invoke(nombre, precio, descripcion, cantidad,tagId);
                 }
             }
         }
+
+        public void RestaurarColor()
+        {
+            borderColor.Background = new SolidColorBrush(Colors.LightGray);
+        }
+
 
 
         private void btnEliminar_Tapped(object sender, TappedRoutedEventArgs e)

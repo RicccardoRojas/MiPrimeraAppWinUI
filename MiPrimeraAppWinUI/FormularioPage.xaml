@@ -456,7 +456,8 @@
                         <Image Source="/Assets/tarjeta-de-dinero.png"></Image>
                     </Button>
 
-                    <Button Name="txtPagar" Grid.Column="3" Background="SkyBlue" Margin="10"
+                    <Button Name="btnPagar" Grid.Column="3" Background="SkyBlue" Margin="10"
+                            Click="btnPagar_Click"
                             Content="PAGAR"
                             FontFamily="Ebrima"
                             FontSize="27"

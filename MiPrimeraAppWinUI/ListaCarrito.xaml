@@ -31,7 +31,7 @@
         </Border>
 
         <TextBlock Name="txtNombre" Grid.Column="1" Text="{Binding Nombre, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
-        <TextBlock Name="txtDescripcion" Grid.Column="2" Text="{Binding Descripcion, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
+        <TextBlock Name="txtDescripcion" Tag="{Binding TAGID, ElementName=Carrito}" Grid.Column="2" Text="{Binding Descripcion, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
         <TextBlock Name="txtPrecio" Grid.Column="3" Text="{Binding Precio, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
         <TextBlock Name="txtCantidad" Grid.Column="4" Text="{Binding Cantidad, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
         <TextBlock Name="txtSubTotal" Grid.Column="5" Text="{Binding Total, ElementName=Carrito}" FontFamily="Ebrima" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10"/>
