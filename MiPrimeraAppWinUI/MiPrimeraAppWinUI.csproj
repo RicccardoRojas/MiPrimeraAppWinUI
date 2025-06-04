@@ -13,6 +13,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\logo.ico" />
     <Content Remove="Assets\UserControl1.xaml.cs" />
   </ItemGroup>
   <ItemGroup>

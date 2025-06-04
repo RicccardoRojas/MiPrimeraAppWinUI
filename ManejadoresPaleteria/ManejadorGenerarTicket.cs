@@ -7,6 +7,7 @@ namespace ManejadoresPaleteria
 {
     public class ManejadorGenerarTicket
     {
+        RecortarPDF recortarPDF = new RecortarPDF();
         public void GenerarTicketPDF(List<ItemVenta> productos, double total)
         {
             QuestPDF.Settings.License = LicenseType.Community;
@@ -17,7 +18,8 @@ namespace ManejadoresPaleteria
             {
                 container.Page(page =>
                 {
-                    page.Size(225, PageSizes.A4.Height); // 80mm de ancho, alto variable
+                    //page.Size(225, PageSizes.A4.Height); // 80mm de ancho, alto variable
+                    page.Size(226.77f, 1000f);
                     page.Margin(10);
                     page.DefaultTextStyle(x => x.FontSize(10).FontFamily("Courier"));
 
@@ -73,7 +75,7 @@ namespace ManejadoresPaleteria
                         });
 
                         col.Item().Text("-------------------------------------------------------");
-                        col.Item().Text($"Fecha: { DateTime.Now.ToString("dddd, dd 'de' MMMM yyyy 'Hora:' h:mm tt", new CultureInfo("es-MX"))}").FontSize(9);
+                        col.Item().Text($"Fecha: { DateTime.Now.ToString("dddd, dd 'de' MMMM yyyy'' h:mm tt", new CultureInfo("es-MX"))}").FontSize(9);
                         col.Item().Text("-------------------------------------------------------");
 
                         // Columnas para los encabezados
@@ -92,7 +94,7 @@ namespace ManejadoresPaleteria
                         // Productos
                         foreach (var item in productos)
                         {
-                            col.Item().Row(row =>
+                            col.Item().Height(15).Row(row =>
                             {
                                 row.RelativeColumn().Text(item.Nombre).FontSize(5);
                                 row.RelativeColumn().Text($"${item.PrecioUnitario:F2}").FontSize(5).AlignCenter();
@@ -134,10 +136,32 @@ namespace ManejadoresPaleteria
                 });
             });
 
-            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+            /*using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
                 documento.GeneratePdf(fs);
-            }
+            } 
+
+            string original = path;
+            string recortado = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", "ticket_recortado.pdf");
+
+            // Ahora sí recortas el PDF
+            recortarPDF.RecortarPdfAlContenido(original, recortado);*/
+
+            using var msOriginal = new MemoryStream();
+
+            // Generas el PDF en memoria
+            documento.GeneratePdf(msOriginal);
+
+            // Resetear posición para leer desde el inicio
+            msOriginal.Position = 0;
+
+            using var msRecortado = new MemoryStream();
+
+            recortarPDF.RecortarPdfAlContenido(msOriginal, msRecortado);
+
+            // Guardas el PDF recortado a disco
+            File.WriteAllBytes(Path.Combine(path), msRecortado.ToArray());
+
 
         }
     }
