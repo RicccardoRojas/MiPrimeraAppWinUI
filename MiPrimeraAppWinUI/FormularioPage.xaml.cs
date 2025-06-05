@@ -22,7 +22,7 @@ namespace MiPrimeraAppWinUI
         double total = 0.0, subtotalAnterior = 0;
         string rutacarrito = "";
         int fkidtiposabor = 0;
-        bool Editar = false;
+        bool Editar = false, efectivo = false, tarjeta = false;
         public FormularioPage()
         {
             this.InitializeComponent();
@@ -270,12 +270,16 @@ namespace MiPrimeraAppWinUI
 
         private void btnPagoEfectivo_Click(object sender, RoutedEventArgs e)
         {
+            efectivo = true;
+            tarjeta = false;
             btnPagoTarjeta.Background = new SolidColorBrush(Colors.LightGreen);
             btnPagoEfectivo.Background = new SolidColorBrush(Colors.Blue);
         }
 
         private void btnPagoTarjeta_Click(object sender, RoutedEventArgs e)
         {
+            tarjeta = true;
+            efectivo  = false;
             btnPagoTarjeta.Background = new SolidColorBrush(Colors.Blue);
             btnPagoEfectivo.Background = new SolidColorBrush(Colors.LightGreen);
         }
@@ -308,33 +312,89 @@ namespace MiPrimeraAppWinUI
             gridViewProductos.ItemsSource = MI.ObtenerProductos(Filtro);
         }
 
-        private void btnPagar_Click(object sender, RoutedEventArgs e)
+        private async void btnPagar_Click(object sender, RoutedEventArgs e)
         {
-            var productos = new List<ItemVenta>();
-
-            foreach (var child in PanelCarrito.Children)
+            try
             {
-                if (child is ListaCarrito item)
+                if (PanelCarrito.Children == null || (!efectivo && !tarjeta))
                 {
-                    string nombre = $"{item.Nombre} {item.Descripcion}";
-                    int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
-                    double precio = double.Parse(item.Precio.Replace("$",""));
-                    double subtotal = cantidad * precio;
-
-                    productos.Add(new ItemVenta
+                    var dialog = new ContentDialog
                     {
-                        Nombre = nombre,
-                        Cantidad = cantidad,
-                        PrecioUnitario = precio,
-                    });
+                        Title = $"Error al Pagar",
+                        Content = "Inserta Productos al Carrito o Selecciona Forma de Pago",
+                        CloseButtonText = "Cancelar",
+                        DefaultButton = ContentDialogButton.Primary,
+                        XamlRoot = this.XamlRoot
+                    };
+                    await dialog.ShowAsync();
+                }
+                else
+                {
+                    var dialog = new PagoCaja();
+
+                    var dialogConfirmacion = new ContentDialog
+                    {
+                        Title = "Confirmar Pago",
+                        Content = dialog,
+                        PrimaryButtonText = "Pagar",
+                        CloseButtonText = "Cancelar",
+                        DefaultButton = ContentDialogButton.Primary,
+                        FullSizeDesired = true,
+                        XamlRoot = this.XamlRoot,
+                    };
+
+                    dialogConfirmacion.Resources["ContentDialogMaxWidth"] = 1000;
+                    dialogConfirmacion.Resources["ContentDialogMinWidth"] = 800;
+
+                    dialogConfirmacion.Resources["ContentDialogMinHeight"] = 350;
+                    dialogConfirmacion.Resources["ContentDialogMaxHeight"] = 500;
+
+
+                    var result = await dialogConfirmacion.ShowAsync();
+
+                    /*var productos = new List<ItemVenta>();
+
+                    foreach (var child in PanelCarrito.Children)
+                    {
+                        if (child is ListaCarrito item)
+                        {
+                            string nombre = $"{item.Nombre} {item.Descripcion}";
+                            int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
+                            double precio = double.Parse(item.Precio.Replace("$", ""));
+                            double subtotal = cantidad * precio;
+
+                            productos.Add(new ItemVenta
+                            {
+                                Nombre = nombre,
+                                Cantidad = cantidad,
+                                PrecioUnitario = precio,
+                            });
+                        }
+                    }
+
+                    string formapago = efectivo ? "Efectivo" : tarjeta ? "Tarjeta" : "No Especificado";
+                    double total = productos.Sum(p => p.Subtotal);
+
+                    var generador = new ManejadorGenerarTicket();
+                    generador.GenerarTicketPDF(productos, total,formapago);
+
+                    efectivo = false; // Resetea el estado de pago
+                    tarjeta = false; // Resetea el estado de pago*/
                 }
             }
-
-            double total = productos.Sum(p => p.Subtotal);
-
-            var generador = new ManejadorGenerarTicket();
-            generador.GenerarTicketPDF(productos, total);
-
+            catch (Exception ex)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = $"Error al Pagar",
+                    Content = ex.Message,
+                    CloseButtonText = "Cancelar",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = this.XamlRoot
+                };
+                await dialog.ShowAsync();
+            }
+            
         }
 
         private async void BotonProductos_Tapped(object sender, TappedRoutedEventArgs e)

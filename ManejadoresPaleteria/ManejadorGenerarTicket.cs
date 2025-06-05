@@ -8,7 +8,7 @@ namespace ManejadoresPaleteria
     public class ManejadorGenerarTicket
     {
         RecortarPDF recortarPDF = new RecortarPDF();
-        public void GenerarTicketPDF(List<ItemVenta> productos, double total)
+        public void GenerarTicketPDF(List<ItemVenta> productos, double total, string formapago)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -107,7 +107,7 @@ namespace ManejadoresPaleteria
                         col.Item().Text("-------------------------------------------------------");
                         double importe = 200.00; // Importe recibido
 
-                        col.Item().Text("Forma de Pago: Efectivo").FontSize(7);
+                        col.Item().Text($"Forma de Pago: {formapago}").FontSize(7);
 
                         // TOTAL
                         col.Item().Row(row =>
