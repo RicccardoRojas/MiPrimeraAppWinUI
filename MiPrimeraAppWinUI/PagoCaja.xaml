@@ -142,7 +142,7 @@
         Grid.Column="0"
         Grid.ColumnSpan="2"
         Background="LightGreen"
-        Click="btn100_Click"
+        Click="btn500_Click"
     />
 
         <Button 
@@ -189,6 +189,62 @@
         FontSize="15"
         TextAlignment="Center"
         />
+
+        <Grid Grid.Row="3" Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock 
+                Text="TOTAL"
+                FontSize="22"
+                Foreground="Blue"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="0"
+            />
+
+            <TextBlock 
+                Name="lblTotal"
+                FontSize="22"
+                FontWeight="Bold"
+                Foreground="Blue"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="1"
+            />
+
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock 
+                Text="CAMBIO"
+                FontSize="25"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="0"
+            />
+
+            <TextBlock
+                Name="lblcambio"
+                FontSize="30"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="1"
+            />
+
+        </Grid>
+        
+        
 
     </Grid>
 

@@ -22,58 +22,82 @@ namespace MiPrimeraAppWinUI
 {
     public sealed partial class PagoCaja : UserControl
     {
-        double total = 0.0;
-        public PagoCaja()
+        double total = 0.0, valorinicial;
+        public PagoCaja(double valor)
         {
             this.InitializeComponent();
 
+            valorinicial = valor;
             lblCantidad.Text = "$" + total.ToString("F2");
+            lblTotal.Text = "$" + valor.ToString("F2");
         }
 
         private void btn1_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(1);
         }
 
         private void btn2_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(2);
         }
 
         private void btn5_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(5);
         }
 
         private void btn10_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(10);
         }
 
         private void btn20_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(20);
         }
 
         private void btn50_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(50);
         }
 
         private void btn100_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(100);
         }
 
         private void btn200_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(200);
         }
 
         private void btn1000_Click(object sender, RoutedEventArgs e)
         {
-
+            Suma(1000);
         }
+
+        private void btn500_Click(object sender, RoutedEventArgs e)
+        {
+            Suma(500);
+        }
+
+        void Suma(double valor)
+        {
+            total += valor; // actualizas el acumulado total de lo entregado
+            lblCantidad.Text = "$" + total.ToString("F2");
+            Resta(total); // pasas el total entregado para calcular el cambio
+        }
+
+
+        void Resta(double entregado)
+        {
+            double cambio = entregado - valorinicial;
+            if (cambio < 0) cambio = 0;
+            lblcambio.Text = "$" + cambio.ToString("F2");
+        }
+
+
 
         private bool _suppressTextChanged = false;
         private long _rawCents = 0; // Mantenemos los centavos internamente
@@ -90,6 +114,7 @@ namespace MiPrimeraAppWinUI
             if (string.IsNullOrEmpty(digits))
             {
                 _rawCents = 0;
+                lblcambio.Text = "$" + valorinicial.ToString("F2");
             }
             else
             {
@@ -112,6 +137,9 @@ namespace MiPrimeraAppWinUI
             _suppressTextChanged = false;
 
             lblCantidad.Text = box.Text;
+            Resta((double)value);
         }
+
+
     }
 }

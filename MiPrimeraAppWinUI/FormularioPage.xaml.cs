@@ -330,7 +330,7 @@ namespace MiPrimeraAppWinUI
                 }
                 else
                 {
-                    var dialog = new PagoCaja();
+                    var dialog = new PagoCaja(total);
 
                     var dialogConfirmacion = new ContentDialog
                     {
