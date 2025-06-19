@@ -349,37 +349,60 @@ namespace MiPrimeraAppWinUI
                     dialogConfirmacion.Resources["ContentDialogMinHeight"] = 350;
                     dialogConfirmacion.Resources["ContentDialogMaxHeight"] = 500;
 
+                    dialogConfirmacion.PrimaryButtonClick += (s, args) =>
+                    {
+                        double totalvalor,cantidadrecibida,cambio;
+
+                        (totalvalor,cantidadrecibida,cambio) = dialog.ObtenerCambio();
+
+                        if (cambio <= 0.0)
+                        {
+                            args.Cancel = true; // Cancela el cierre del dialog si el cambio es menor o igual a 0
+                        }
+                        else
+                        {
+                            var productos = new List<ItemVenta>();
+
+                            foreach (var child in PanelCarrito.Children)
+                            {
+                                if (child is ListaCarrito item)
+                                {
+                                    string nombre = $"{item.Nombre} {item.Descripcion}";
+                                    int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
+                                    double precio = double.Parse(item.Precio.Replace("$", ""));
+                                    double subtotal = cantidad * precio;
+
+                                    productos.Add(new ItemVenta
+                                    {
+                                        Nombre = nombre,
+                                        Cantidad = cantidad,
+                                        PrecioUnitario = precio,
+                                    });
+                                }
+                            }
+
+                            string formapago = efectivo ? "Efectivo" : tarjeta ? "Tarjeta" : "No Especificado";
+                            //double total = productos.Sum(p => p.Subtotal);
+
+                            var generador = new ManejadorGenerarTicket();
+                            generador.GenerarTicketPDF(productos, totalvalor, cantidadrecibida,formapago,cambio);
+
+                            //Resetea el estado de pago
+                            efectivo = true;
+                            tarjeta = true;
+                            btnPagoTarjeta.Background = new SolidColorBrush(Colors.LightGreen);
+                            btnPagoEfectivo.Background = new SolidColorBrush(Colors.LightGreen);
+
+                            // Resetea el carrito y total después del pago
+                            PanelCarrito.Children.Clear();
+                            total = 0.0;
+                            txtTotal.Text = "TOTAL: \n$0.00";
+                        }
+                        
+                    };
 
                     var result = await dialogConfirmacion.ShowAsync();
-
-                    /*var productos = new List<ItemVenta>();
-
-                    foreach (var child in PanelCarrito.Children)
-                    {
-                        if (child is ListaCarrito item)
-                        {
-                            string nombre = $"{item.Nombre} {item.Descripcion}";
-                            int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
-                            double precio = double.Parse(item.Precio.Replace("$", ""));
-                            double subtotal = cantidad * precio;
-
-                            productos.Add(new ItemVenta
-                            {
-                                Nombre = nombre,
-                                Cantidad = cantidad,
-                                PrecioUnitario = precio,
-                            });
-                        }
-                    }
-
-                    string formapago = efectivo ? "Efectivo" : tarjeta ? "Tarjeta" : "No Especificado";
-                    double total = productos.Sum(p => p.Subtotal);
-
-                    var generador = new ManejadorGenerarTicket();
-                    generador.GenerarTicketPDF(productos, total,formapago);
-
-                    efectivo = false; // Resetea el estado de pago
-                    tarjeta = false; // Resetea el estado de pago*/
+                    
                 }
             }
             catch (Exception ex)

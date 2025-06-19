@@ -8,7 +8,7 @@ namespace ManejadoresPaleteria
     public class ManejadorGenerarTicket
     {
         RecortarPDF recortarPDF = new RecortarPDF();
-        public void GenerarTicketPDF(List<ItemVenta> productos, double total, string formapago)
+        public void GenerarTicketPDF(List<ItemVenta> productos, double total,double importerecibido, string formapago,double cambio)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -105,7 +105,6 @@ namespace ManejadoresPaleteria
 
 
                         col.Item().Text("-------------------------------------------------------");
-                        double importe = 200.00; // Importe recibido
 
                         col.Item().Text($"Forma de Pago: {formapago}").FontSize(7);
 
@@ -120,14 +119,14 @@ namespace ManejadoresPaleteria
                         col.Item().Row(row =>
                         {
                             row.RelativeColumn(7).Text("Importe Recibido:\t").FontSize(8).AlignRight();
-                            row.RelativeColumn(3).PaddingLeft(8).Text($"${importe:F2}").FontSize(8).AlignLeft();
+                            row.RelativeColumn(3).PaddingLeft(8).Text($"${importerecibido:F2}").FontSize(8).AlignLeft();
                         });
 
                         // Cambio
                         col.Item().Row(row =>
                         {
                             row.RelativeColumn(7).Text("Cambio:\t").FontSize(8).AlignRight();
-                            row.RelativeColumn(3).PaddingLeft(8).Text($"${(importe - total):F2}").FontSize(8).AlignLeft();
+                            row.RelativeColumn(3).PaddingLeft(8).Text($"${cambio:F2}").FontSize(8).AlignLeft();
                         });
 
                         col.Item().Text("\n¡Gracias por su compra!").AlignCenter();

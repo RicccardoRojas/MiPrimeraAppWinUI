@@ -140,6 +140,13 @@ namespace MiPrimeraAppWinUI
             Resta((double)value);
         }
 
+        public (double,double,double) ObtenerCambio()
+        {
+            double total = lblTotal.Text.Replace("$", "").Replace(",", "").Trim() == "" ? 0.0 : Convert.ToDouble(lblTotal.Text.Replace("$", "").Replace(",", "").Trim());
+            double pago = lblCantidad.Text.Replace("$", "").Replace(",", "").Trim() == "" ? 0.0 : Convert.ToDouble(lblCantidad.Text.Replace("$", "").Replace(",", "").Trim());
+            double cambio = lblcambio.Text.Replace("$", "").Replace(",", "").Trim() == "" ? 0.0 : Convert.ToDouble(lblcambio.Text.Replace("$", "").Replace(",", "").Trim());
 
+            return (total, pago, cambio);   
+        }
     }
 }
