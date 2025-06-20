@@ -18,6 +18,8 @@ namespace MiPrimeraAppWinUI
     public sealed partial class FormularioPage : Page
     {
         ManejadorInventarioProducto MI;
+        ManejadorRegistroVenta MR;
+
         private ListaCarrito itemEditando = null;
         double total = 0.0, subtotalAnterior = 0;
         string rutacarrito = "";
@@ -27,6 +29,8 @@ namespace MiPrimeraAppWinUI
         {
             this.InitializeComponent();
             MI = new ManejadorInventarioProducto();
+            MR = new ManejadorRegistroVenta();
+
             txtTotal.Text = "TOTAL: \n$" + total.ToString("F2");
 
             Actualizar("%");
@@ -330,78 +334,54 @@ namespace MiPrimeraAppWinUI
                 }
                 else
                 {
-                    var dialog = new PagoCaja(total);
 
-                    var dialogConfirmacion = new ContentDialog
+                    string formapago = efectivo ? "Efectivo" : tarjeta ? "Tarjeta" : "No Especificado";
+
+                    if (formapago.Equals("Efectivo"))
                     {
-                        Title = "Confirmar Pago",
-                        Content = dialog,
-                        PrimaryButtonText = "Pagar",
-                        CloseButtonText = "Cancelar",
-                        DefaultButton = ContentDialogButton.Primary,
-                        FullSizeDesired = true,
-                        XamlRoot = this.XamlRoot,
-                    };
+                        var dialog = new PagoCaja(total);
 
-                    dialogConfirmacion.Resources["ContentDialogMaxWidth"] = 1000;
-                    dialogConfirmacion.Resources["ContentDialogMinWidth"] = 800;
-
-                    dialogConfirmacion.Resources["ContentDialogMinHeight"] = 350;
-                    dialogConfirmacion.Resources["ContentDialogMaxHeight"] = 500;
-
-                    dialogConfirmacion.PrimaryButtonClick += (s, args) =>
-                    {
-                        double totalvalor,cantidadrecibida,cambio;
-
-                        (totalvalor,cantidadrecibida,cambio) = dialog.ObtenerCambio();
-
-                        if (cambio <= 0.0)
+                        var dialogConfirmacion = new ContentDialog
                         {
-                            args.Cancel = true; // Cancela el cierre del dialog si el cambio es menor o igual a 0
-                        }
-                        else
-                        {
-                            var productos = new List<ItemVenta>();
+                            Title = "Confirmar Pago",
+                            Content = dialog,
+                            PrimaryButtonText = "Pagar",
+                            CloseButtonText = "Cancelar",
+                            DefaultButton = ContentDialogButton.Primary,
+                            FullSizeDesired = true,
+                            XamlRoot = this.XamlRoot,
+                        };
 
-                            foreach (var child in PanelCarrito.Children)
+                        dialogConfirmacion.Resources["ContentDialogMaxWidth"] = 1000;
+                        dialogConfirmacion.Resources["ContentDialogMinWidth"] = 800;
+
+                        dialogConfirmacion.Resources["ContentDialogMinHeight"] = 350;
+                        dialogConfirmacion.Resources["ContentDialogMaxHeight"] = 500;
+
+                        dialogConfirmacion.PrimaryButtonClick += (s, args) =>
+                        {
+                            double totalvalor, cantidadrecibida, cambio;
+
+                            (totalvalor, cantidadrecibida, cambio) = dialog.ObtenerCambio();
+
+                            if (cambio <= 0.0)
                             {
-                                if (child is ListaCarrito item)
-                                {
-                                    string nombre = $"{item.Nombre} {item.Descripcion}";
-                                    int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
-                                    double precio = double.Parse(item.Precio.Replace("$", ""));
-                                    double subtotal = cantidad * precio;
-
-                                    productos.Add(new ItemVenta
-                                    {
-                                        Nombre = nombre,
-                                        Cantidad = cantidad,
-                                        PrecioUnitario = precio,
-                                    });
-                                }
+                                args.Cancel = true; // Cancela el cierre del dialog si el cambio es menor o igual a 0
+                            }
+                            else
+                            {
+                                GenerarTicketPago(totalvalor, cantidadrecibida, formapago, cambio);
                             }
 
-                            string formapago = efectivo ? "Efectivo" : tarjeta ? "Tarjeta" : "No Especificado";
-                            //double total = productos.Sum(p => p.Subtotal);
+                        };
 
-                            var generador = new ManejadorGenerarTicket();
-                            generador.GenerarTicketPDF(productos, totalvalor, cantidadrecibida,formapago,cambio);
+                        var result = await dialogConfirmacion.ShowAsync();
+                    }
 
-                            //Resetea el estado de pago
-                            efectivo = true;
-                            tarjeta = true;
-                            btnPagoTarjeta.Background = new SolidColorBrush(Colors.LightGreen);
-                            btnPagoEfectivo.Background = new SolidColorBrush(Colors.LightGreen);
-
-                            // Resetea el carrito y total después del pago
-                            PanelCarrito.Children.Clear();
-                            total = 0.0;
-                            txtTotal.Text = "TOTAL: \n$0.00";
-                        }
-                        
-                    };
-
-                    var result = await dialogConfirmacion.ShowAsync();
+                    else if (formapago.Equals("Tarjeta"))
+                    {
+                        GenerarTicketPago(total, total, formapago, 0.0);
+                    }
                     
                 }
             }
@@ -418,6 +398,59 @@ namespace MiPrimeraAppWinUI
                 await dialog.ShowAsync();
             }
             
+        }
+
+        void GenerarTicketPago(double totalvalor,double cantidadrecibida,string formapago,double cambio)
+        {
+
+            var productos = new List<ItemVenta>();
+
+            string productventa = "";
+
+            foreach (var child in PanelCarrito.Children)
+            {
+                if (child is ListaCarrito item)
+                {
+                    string nombre = $"{item.Nombre} {item.Descripcion}";
+                    int cantidad = int.TryParse(item.Cantidad, out var c) ? c : 0;
+                    double precio = double.Parse(item.Precio.Replace("$", ""));
+                    double subtotal = cantidad * precio;
+
+                    productos.Add(new ItemVenta
+                    {
+                        Nombre = nombre,
+                        Cantidad = cantidad,
+                        PrecioUnitario = precio,
+                    });
+
+                    productventa += $"{cantidad} {nombre}\n";
+                }
+            }
+
+            var generador = new ManejadorGenerarTicket();
+            generador.GenerarTicketPDF(productos, totalvalor, cantidadrecibida, formapago, cambio);
+
+            EntidadPeleteria.RegistroVenta registro = new EntidadPeleteria.RegistroVenta
+            {
+                Fecha = DateTime.Now,
+                Productos = productventa,
+                Monto = totalvalor,
+                Pago = formapago.ToUpper()
+            };
+
+
+            MR.InsertarRegsitroVentas(registro);
+
+            //Resetea el estado de pago
+            efectivo = true;
+            tarjeta = true;
+            btnPagoTarjeta.Background = new SolidColorBrush(Colors.LightGreen);
+            btnPagoEfectivo.Background = new SolidColorBrush(Colors.LightGreen);
+
+            // Resetea el carrito y total después del pago
+            PanelCarrito.Children.Clear();
+            total = 0.0;
+            txtTotal.Text = "TOTAL: \n$0.00";
         }
 
         private async void BotonProductos_Tapped(object sender, TappedRoutedEventArgs e)

@@ -177,12 +177,18 @@
                         <controls:DataGridTextColumn Header="ID"
                                      Binding="{Binding Id}"
                                      Width="70" />
-                        <controls:DataGridTextColumn Header="Nombre"
-                                     Binding="{Binding Nombre}"
+                        <controls:DataGridTextColumn Header="Fecha"
+                                    Binding="{Binding Fecha}"
+                                    Width="*" />
+                        <controls:DataGridTextColumn Header="Productos"
+                                     Binding="{Binding Productos}"
                                      Width="*" />
-                        <controls:DataGridTextColumn Header="Precio"
-                                     Binding="{Binding Precio}"
+                        <controls:DataGridTextColumn Header="Monto"
+                                     Binding="{Binding Monto}"
                                      Width="*" />
+                        <controls:DataGridTextColumn Header="Forma Pago"
+                                    Binding="{Binding Pago}"
+                                    Width="*" />
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
 

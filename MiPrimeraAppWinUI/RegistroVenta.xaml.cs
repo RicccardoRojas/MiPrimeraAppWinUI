@@ -12,6 +12,7 @@ using System.Globalization;
 using System;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml;
+using ManejadoresPaleteria;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -25,7 +26,6 @@ namespace MiPrimeraAppWinUI
     public sealed partial class RegistroVenta : Page
     {
         //Prueba datagrid
-        public ObservableCollection<Producto> Productos { get; set; }
         //Grafico de Numero de Ventas
         public ISeries[] SerieNumVentas { get; set; }
         public ObservableCollection<ICartesianAxis> XAxesNumVentas { get; set; }
@@ -36,16 +36,19 @@ namespace MiPrimeraAppWinUI
         public ObservableCollection<ICartesianAxis> XAxesCantGanada { get; set; }
         public ObservableCollection<ICartesianAxis> YAxesCantGanada { get; set; }
 
+        ManejadorRegistroVenta MR;
         public RegistroVenta()
         {
             this.InitializeComponent();
+            MR = new ManejadorRegistroVenta();
+
             txtTituloVentSemana.Text = "VENTAS SEMANALES\nNUM VENTAS";
             txtTituloCantGanada.Text = "VENTAS SEMANALES\nCANTIDAD GANADA";
             GenerarGraficoNumVentas();
             GenerarGraficoCantGanada();
 
-            Productos = GenerarProductos(100);
-            MiDataGrid.ItemsSource = Productos;
+            cmbTipoRegistro.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
+            MiDataGrid.ItemsSource = MR.ObtenerRegistroVenta(cmbTipoRegistro.SelectedItem.ToString());
         }
 
         public void GenerarGraficoNumVentas()
